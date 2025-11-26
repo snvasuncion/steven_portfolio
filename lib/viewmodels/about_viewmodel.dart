@@ -12,6 +12,7 @@ class AboutViewModel {
     "API Integration (RESTful APIs)",
     "CI/CD (GitHub Actions)",
     "UI/UX with clean, responsive design",
+    "Vercel"
   ];
 
   // Highlights
