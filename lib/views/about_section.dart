@@ -22,7 +22,6 @@ class AboutSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title
                 Text(
                   'About Me',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -32,14 +31,11 @@ class AboutSection extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
 
-                // Intro
                 Text(
                   viewModel.intro,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 32),
-
-                // What I Do
                 Text(
                   'What I Do',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(

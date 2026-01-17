@@ -3,59 +3,39 @@ import '../models/project.dart';
 class ProjectViewModel {
   List<Project> get projects => [
         Project(
-          title: 'Portfolio Website',
+          title: 'Custom Weather Map App',
           description:
-              'Personal portfolio website built with Flutter Web, showcasing my projects and skills. '
-              'Features responsive design and interactive UI components.',
-          imageUrl: 'assets/images/portfolio.png',
-          githubUrl: 'https://github.com/steveasuncion/portfolio',
-          liveUrl: 'https://steveasuncion.dev',
-          technologies: ['Flutter', 'Dart', 'BLoC'],
-        ),
-        // Add more projects below
-        Project(
-          title: 'Task Management App',
-          description:
-              'A cross-platform mobile application for managing tasks and projects. '
-              'Includes features like task categorization, due dates, and push notifications.',
+              'Simple weather forecasting application featuring user authentication, location-based weather search, and search history functionality. Built using MVVM architecture with comprehensive error handling for a seamless user experience. \n\nThis application was developed for a job assessment. Details of this application is in the source code below.',
           imageUrl: 'assets/images/task_manager.png',
-          githubUrl: 'https://github.com/steveasuncion/task-manager',
-          technologies: ['Flutter', 'Firebase', 'Provider'],
+          githubUrl: 'https://github.com/snvasuncion/WeatherApp',
+          technologies: ['React Native', 'JavaScript', 'REST API'],
         ),
-        // Add more projects as needed
       ];
 
-  // Get all projects
   List<Project> getAllProjects() => projects;
 
-  // Get projects filtered by technology
   List<Project> getProjectsByTechnology(String technology) {
     return projects
         .where((project) => project.technologies.contains(technology))
         .toList();
   }
 
-  // Get projects with live demos
   List<Project> getLiveProjects() {
     return projects.where((project) => project.liveUrl != null).toList();
   }
 
-  // Get projects with GitHub repositories
   List<Project> getGithubProjects() {
     return projects.where((project) => project.githubUrl != null).toList();
   }
 
-  // Get all unique technologies used across all projects
   Set<String> getAllTechnologies() {
     return projects.expand((project) => project.technologies).toSet();
   }
 
-  // Get featured projects (you can define your own criteria)
   List<Project> getFeaturedProjects() {
-    return projects.take(3).toList(); // Returns first 3 projects
+    return projects.take(3).toList();
   }
 
-  // Search projects by title or description
   List<Project> searchProjects(String query) {
     query = query.toLowerCase();
     return projects
@@ -65,7 +45,6 @@ class ProjectViewModel {
         .toList();
   }
 
-  // Sort projects by various criteria
   List<Project> sortProjects({required SortCriteria criteria}) {
     final sortedProjects = List<Project>.from(projects);
     switch (criteria) {

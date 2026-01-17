@@ -1,14 +1,13 @@
 class ProfileViewModel {
   // Personal Information
   final String name = 'Steven Nikko V. Asuncion';
-  final String title = 'Application Developer';
+  final String title = 'Software Developer';
   final String email = 'asuncionsteven@gmail.com';
   final String location = 'Philippines, PH';
   final String profileImage = 'assets/images/steven_profile_pic.jpeg';
   // Social Links
   final String githubUrl = 'https://github.com/steveasuncion';
   final String linkedinUrl = 'https://linkedin.com/in/steveasuncion';
-  // Add more social links as needed
 
   // Skills
   List<String> get technicalSkills => [
@@ -17,26 +16,29 @@ class ProfileViewModel {
         'React Native',
         'PHP',
         'Kotlin',
-        // Add more skills
+        'Google Maps API',
+        'Firebase Integration',
+        'REST API Integration',
       ];
 
   List<String> get frameworks => [
         'Flutter',
         'React',
-        // Add more frameworks
+        'React Native',
+        'Next.js',
       ];
 
   List<String> get tools => [
         'VsCode',
         'Git',
-        'Firebase',
         'Android Studio',
         'Jira',
         'Postman',
         'Figma',
         'Slack',
         'Trello',
-        // Add more tools
+        'GitHub Actions',
+        'Agile/Scrum',
       ];
 
   // Education
@@ -47,35 +49,43 @@ class ProfileViewModel {
           'year': '2011-2015',
           'location': 'Philippines, PH'
         },
-        // Add more education
       ];
 
-  // Experience
   List<Map<String, dynamic>> get experience => [
         {
-          'title': 'Application Developer',
+          'title': 'Mobile Application Developer',
           'company': 'Accenture',
-          'period': 'August 2021 - 2023',
+          'period': 'Aug 2021 – March 2024',
           'location': 'Philippines, PH',
           'responsibilities': [
-            'Developed and maintained mobile applications using Flutter and Kotlin',
-            'Collaborated with cross-functional teams to deliver high-quality software',
-            'Implemented responsive design patterns and best practices that satisfied client requirements',
-            'Deliver deliverables on time and with quality',
+            'Developed features and fixed bugs for 3 mobile applications',
+            'Collaborated with cross-functional Agile teams',
+            'Implemented client requirements into technical solutions',
+            'Used Git for version control and team collaboration',
           ]
         },
         {
-          'title': 'Mobile Developer',
-          'company': 'Orizon Solutions Incorporated',
-          'period': 'September 2019 - May 2020',
+          'title': 'Android Developer',
+          'company': 'Orizon Solutions Inc.',
+          'period': 'Sept 2017 – May 2019',
           'location': 'Philippines, PH',
           'responsibilities': [
-            '',
-            'Managed project timelines and client communications effectively',
-            'Ensured applications were optimized for performance and user experience',
+            'Built school management system with Cordova & AngularJS',
+            'Managed full development lifecycle for features',
+            'Resolved critical issues and implemented user stories',
+          ]
+        },
+        {
+          'title': 'Frontend Web Developer (Contract)',
+          'company': 'Tectus',
+          'period': 'Nov 2024 – Dec 2024',
+          'location': 'Philippines, PH',
+          'responsibilities': [
+            'Fixed bugs and maintained website functionality using React.js',
+            'Worked with QA team using Jira ticketing system',
+            'Collaborated in Agile development environment',
           ]
         }
-        // Add more experience
       ];
 
   // Methods to get specific information

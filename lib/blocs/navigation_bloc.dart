@@ -8,7 +8,7 @@ class NavigationState {
 }
 
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
-  NavigationBloc() : super(NavigationState(NavigationEvent.profile)) {
+  NavigationBloc() : super(NavigationState(NavigationEvent.about)) { 
     on<NavigationEvent>((event, emit) {
       emit(NavigationState(event));
     });

@@ -1,33 +1,28 @@
 class AboutViewModel {
-  // Intro / Who I Am
   final String intro =
-      "Hi, I’m Steven! An Associate software engineering professional specializing in mobile application development with a strong track record of success in ensuring seamless software integration, effective communication, and efficient data exchange. Proven ability to provide valuable support and deliver projects promptly, contributing to career advancement opportunities.";
+      "I'm a Software Developer with 8 years of experience in the industry. Proven expertise in delivering successful projects with strong skills in Git version control and Agile methodologies. Notable achievements include the successful implementation of new features and resolution of critical bugs across multiple projects. Committed to translating business needs into functional solutions, leveraging strong technical skills to enhance user experience and drive project success.";
 
-  // What I Do
   final List<String> whatIDo = [
     "Mobile Development (Flutter, React Native)",
-    "Web Development (React, PHP)",
+    "Web Development (React, Next.js, TypeScript)",
     "State Management (Bloc, MVVM, Provider)",
     "Version Control (Git, GitHub)",
     "API Integration (RESTful APIs)",
     "CI/CD (GitHub Actions)",
     "UI/UX with clean, responsive design",
-    "Vercel"
+    "Agile Methodologies (Scrum, Jira)",
   ];
 
-  // Highlights
   final List<String> highlights = [
-    "5 Years Experience as an Mobile Developer",
-    "3+ Years Flutter Experience",
-    "6 Months Experience with React Native",
-    "Willing to be trained.",
-    "Interested in Frontend Development but willing to explore Backend Development or Full Stack Development.",
-    "Strong communication and interpersonal skills.",
-    "Quick learner and adaptable to new technologies.",
-    "Team player with a positive attitude.",
+    "5+ Years of Professional Mobile Development Experience",
+    "3+ Years Flutter & Dart Expertise with Production Apps",
+    "Cross-Platform Development (Flutter & React Native)",
+    "Expanding Skills into Full-Stack Development",
+    "Strong Focus on Clean Architecture & Code Quality",
+    "Experienced with Agile Methodologies & Team Collaboration",
+    "Proven Ability to Solve Complex Technical Challenges",
+    "Dedicated to Building High-Quality, User-Focused Applications",
   ];
 
-  // Fun Fact
-  final String funFact =
-      "I'm a gamer, entrepreneur and a hobbyist.";
+  final String funFact = "I'm an avid mobile gamer and figure collector - two hobbies that keep my appreciation for design and detail sharp.";
 }

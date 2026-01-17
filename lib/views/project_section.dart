@@ -1,35 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-class Project {
-  final String title;
-  final String description;
-  final String imageUrl;
-  final String? githubUrl;
-  final String? liveUrl;
-  final List<String> technologies;
-
-  Project({
-    required this.title,
-    required this.description,
-    required this.imageUrl,
-    this.githubUrl,
-    this.liveUrl,
-    required this.technologies,
-  });
-}
+import '../viewmodels/project_viewmodel.dart';
 
 class ProjectsSection extends StatelessWidget {
-  final List<Project> projects = [
-    Project(
-      title: 'Portfolio Website',
-      description: 'A responsive portfolio website built with Flutter Web',
-      imageUrl: 'assets/images/portfolio.png',
-      githubUrl: 'https://github.com/yourusername/portfolio',
-      technologies: ['Flutter', 'Dart', 'BLoC'],
-    ),
-    // Add more projects here
-  ];
+  final ProjectViewModel _viewModel = ProjectViewModel();
 
   ProjectsSection({super.key});
 
@@ -42,6 +16,8 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final projects = _viewModel.projects;
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -59,8 +35,11 @@ class ProjectsSection extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: MediaQuery.of(context).size.width > 1200 ? 3 : 
-                            MediaQuery.of(context).size.width > 800 ? 2 : 1,
+              crossAxisCount: MediaQuery.of(context).size.width > 1200
+                  ? 3
+                  : MediaQuery.of(context).size.width > 800
+                      ? 2
+                      : 1,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
               childAspectRatio: 1.2,
@@ -101,12 +80,6 @@ class ProjectsSection extends StatelessWidget {
                               icon: const Icon(Icons.code),
                               onPressed: () => _launchUrl(project.githubUrl!),
                               tooltip: 'View Source Code',
-                            ),
-                          if (project.liveUrl != null)
-                            IconButton(
-                              icon: const Icon(Icons.launch),
-                              onPressed: () => _launchUrl(project.liveUrl!),
-                              tooltip: 'View Live Demo',
                             ),
                         ],
                       ),

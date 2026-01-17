@@ -5,11 +5,8 @@ class NavigationViewModel {
 
   NavigationViewModel({required this.navigationBloc});
 
-  // Current section getter
-  NavigationEvent get currentSection =>
-      (navigationBloc.state).selectedSection;
+  NavigationEvent get currentSection => (navigationBloc.state).selectedSection;
 
-  // Navigation methods
   void navigateToProfile() {
     navigationBloc.add(NavigationEvent.profile);
   }
@@ -18,12 +15,10 @@ class NavigationViewModel {
     navigationBloc.add(NavigationEvent.projects);
   }
 
-  // Method to check if a section is currently selected
   bool isSectionSelected(NavigationEvent section) {
     return currentSection == section;
   }
 
-  // Method to get the title for the current section
   String getCurrentSectionTitle() {
     switch (currentSection) {
       case NavigationEvent.profile:
@@ -35,7 +30,6 @@ class NavigationViewModel {
     }
   }
 
-  // Optional: Method to handle deep linking or direct navigation
   void navigateToSection(String sectionName) {
     switch (sectionName.toLowerCase()) {
       case 'profile':
@@ -45,13 +39,11 @@ class NavigationViewModel {
         navigateToProjects();
         break;
       default:
-        navigateToProfile(); // Default to profile
+        navigateToProfile();
     }
   }
 
-  // Optional: Method to get the previous section (for back navigation)
   NavigationEvent? getPreviousSection() {
-    // Add your logic for maintaining navigation history
     return null;
   }
 }

@@ -12,11 +12,11 @@ class ProfileSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Color.fromRGBO(0, 0, 0, 0.08),
             blurRadius: 12,
-            offset: const Offset(0, 6),
+            offset: Offset(0, 6),
           ),
         ],
       ),
@@ -28,11 +28,12 @@ class ProfileSection extends StatelessWidget {
             // Profile Image
             CircleAvatar(
               radius: 70,
-              backgroundColor: Theme.of(context).primaryColor.withOpacity(0.2),
+              backgroundColor: Color.lerp(
+                  Colors.transparent, Theme.of(context).primaryColor, 0.2)!,
               child: CircleAvatar(
                 radius: 65,
                 backgroundImage: AssetImage(viewModel.getProfileImage()),
-              ),  
+              ),
             ),
             const SizedBox(height: 20),
 
@@ -53,7 +54,7 @@ class ProfileSection extends StatelessWidget {
                   ),
               textAlign: TextAlign.center,
             ),
-            
+
             const SizedBox(height: 30),
 
             // Experience Section
@@ -67,7 +68,7 @@ class ProfileSection extends StatelessWidget {
                     ),
               ),
             ),
-             const SizedBox(height: 12),
+            const SizedBox(height: 12),
             ...viewModel.experience.map(
               (exp) => Padding(
                 padding: const EdgeInsets.only(bottom: 20),
@@ -125,8 +126,8 @@ class ProfileSection extends StatelessWidget {
               children: viewModel.getAllSkills().map((skill) {
                 return Chip(
                   label: Text(skill),
-                  backgroundColor:
-                      Theme.of(context).primaryColor.withOpacity(0.1),
+                  backgroundColor: Color.lerp(
+                      Colors.transparent, Theme.of(context).primaryColor, 0.1)!,
                   labelStyle: TextStyle(
                     color: Theme.of(context).primaryColor,
                   ),
