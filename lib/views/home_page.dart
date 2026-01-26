@@ -17,12 +17,6 @@ class HomePage extends StatelessWidget {
 
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (isDesktop && state.selectedSection == NavigationEvent.profile) {
-            context.read<NavigationBloc>().add(NavigationEvent.about);
-          }
-        });
-
         return Scaffold(
           drawer: isDesktop ? null : _buildDrawer(context),
           appBar: _buildAppBar(context, state, isDesktop),
@@ -31,11 +25,13 @@ class HomePage extends StatelessWidget {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (isDesktop)
+                  // Only show ProfileSection on desktop when About is selected
+                  if (isDesktop &&
+                      state.selectedSection == NavigationEvent.about)
                     const SizedBox(
                       width: 350,
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: ProfileSection(),
                       ),
                     ),
@@ -62,9 +58,13 @@ class HomePage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   PageTransition(
-                                    key: ValueKey(state.selectedSection),
-                                    child: _buildContentSection(
-                                        state.selectedSection, isDesktop),
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                    child: Container(
+                                      key: ValueKey(state.selectedSection),
+                                      child: _buildContentSection(
+                                          state.selectedSection),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -85,11 +85,6 @@ class HomePage extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar(
       BuildContext context, NavigationState state, bool isDesktop) {
-    final displayedSection =
-        (isDesktop && state.selectedSection == NavigationEvent.profile)
-            ? NavigationEvent.about
-            : state.selectedSection;
-
     return AppBar(
       title: const Text('My Portfolio'),
       elevation: 0,
@@ -101,21 +96,21 @@ class HomePage extends StatelessWidget {
             context: context,
             label: 'About',
             event: NavigationEvent.about,
-            isSelected: displayedSection == NavigationEvent.about,
+            isSelected: state.selectedSection == NavigationEvent.about,
           ),
 
           _buildAppBarButton(
             context: context,
             label: 'Projects',
             event: NavigationEvent.projects,
-            isSelected: displayedSection == NavigationEvent.projects,
+            isSelected: state.selectedSection == NavigationEvent.projects,
           ),
           // Contact Button with animation
           _buildAppBarButton(
             context: context,
             label: 'Contact',
             event: NavigationEvent.contact,
-            isSelected: displayedSection == NavigationEvent.contact,
+            isSelected: state.selectedSection == NavigationEvent.contact,
           ),
           const SizedBox(width: 16),
         ],
@@ -226,13 +221,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildContentSection(NavigationEvent selectedSection, bool isDesktop) {
-    final effectiveSection =
-        (isDesktop && selectedSection == NavigationEvent.profile)
-            ? NavigationEvent.about
-            : selectedSection;
-
-    switch (effectiveSection) {
+  Widget _buildContentSection(NavigationEvent selectedSection) {
+    switch (selectedSection) {
       case NavigationEvent.about:
         return const AboutSection();
       case NavigationEvent.projects:
@@ -240,6 +230,8 @@ class HomePage extends StatelessWidget {
       case NavigationEvent.contact:
         return const ContactSection();
       case NavigationEvent.profile:
+        // For mobile, show ProfileSection in main content area
+        // For desktop, this should never be reached since Profile is shown on the side
         return const ProfileSection();
     }
   }

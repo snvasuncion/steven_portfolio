@@ -1,4 +1,3 @@
-// lib/widgets/page_transition.dart
 import 'package:flutter/material.dart';
 
 class PageTransition extends StatefulWidget {

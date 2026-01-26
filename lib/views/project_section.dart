@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../viewmodels/project_viewmodel.dart';
+import '../models/project.dart';
+import '../utility/delayed_fade_scale.dart';
 
 class ProjectsSection extends StatelessWidget {
   final ProjectViewModel _viewModel = ProjectViewModel();
@@ -18,78 +21,156 @@ class ProjectsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final projects = _viewModel.projects;
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Projects',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 800),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Title with animation
+            DelayedFadeScale(
+              delay: const Duration(milliseconds: 200),
+              child: Text(
+                'Projects',
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: MediaQuery.of(context).size.width > 1200
-                  ? 3
-                  : MediaQuery.of(context).size.width > 800
-                      ? 2
-                      : 1,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 1.2,
-            ),
-            itemCount: projects.length,
-            itemBuilder: (context, index) {
-              final project = projects[index];
-              return Card(
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        project.title,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+            const SizedBox(height: 20),
+
+            // Projects with staggered animations
+            if (projects.isNotEmpty)
+              ...projects.asMap().entries.map((entry) {
+                int index = entry.key;
+                Project project = entry.value;
+                return DelayedFadeScale(
+                  delay: Duration(milliseconds: 300 + (index * 150)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Project Title
+                            DelayedFadeScale(
+                              delay: const Duration(milliseconds: 0),
+                              child: Text(
+                                project.title,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Project Description
+                            DelayedFadeScale(
+                              delay: const Duration(milliseconds: 50),
+                              child: Text(
+                                project.description,
+                                style: GoogleFonts.openSans(
+                                  fontSize: 15,
+                                  height: 1.6,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Technologies
+                            DelayedFadeScale(
+                              delay: const Duration(milliseconds: 100),
+                              child: Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: project.technologies
+                                    .map((tech) => Chip(
+                                          label: Text(tech),
+                                          backgroundColor: Color.lerp(
+                                            Colors.transparent,
+                                            Theme.of(context).primaryColor,
+                                            0.1,
+                                          )!,
+                                          labelStyle: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            color: Theme.of(context).primaryColor,
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+
+                            // GitHub Button
+                            if (project.githubUrl != null)
+                              DelayedFadeScale(
+                                delay: const Duration(milliseconds: 150),
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 24,
+                                        vertical: 12,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      elevation: 2,
+                                    ),
+                                    onPressed: () => _launchUrl(project.githubUrl!),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(Icons.code, size: 20),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          'View on GitHub',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(project.description),
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: project.technologies
-                            .map((tech) => Chip(label: Text(tech)))
-                            .toList(),
-                      ),
-                      const Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (project.githubUrl != null)
-                            IconButton(
-                              icon: const Icon(Icons.code),
-                              onPressed: () => _launchUrl(project.githubUrl!),
-                              tooltip: 'View Source Code',
-                            ),
-                        ],
-                      ),
-                    ],
+                    ),
+                  ),
+                );
+              }).toList()
+            else
+              const DelayedFadeScale(
+                delay: Duration(milliseconds: 300),
+                child: Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: EdgeInsets.all(24.0),
+                    child: Center(
+                      child: Text('No projects to display'),
+                    ),
                   ),
                 ),
-              );
-            },
-          ),
-        ],
+              ),
+          ],
+        ),
       ),
     );
   }
