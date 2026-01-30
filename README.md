@@ -1,6 +1,6 @@
 # steven_asuncion_portfolio
 
-A new Flutter project.
+This website is my portfolio that I made using Flutter. This website is a responsive website that adjusts according to its screen size/ user's device.
 
 ## Getting Started
 
