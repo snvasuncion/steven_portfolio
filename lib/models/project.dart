@@ -1,41 +1,55 @@
+import 'dart:convert';
+
 class Project {
+  final String id;
   final String title;
   final String description;
   final String imageUrl;
-  final String? githubUrl;
-  final String? liveUrl;
+  final String githubUrl;
   final List<String> technologies;
+  final String? liveUrl;
 
   Project({
+    required this.id,
     required this.title,
     required this.description,
     required this.imageUrl,
-    this.githubUrl,
-    this.liveUrl,
+    required this.githubUrl,
     required this.technologies,
+    this.liveUrl,
   });
 
-  // Optional: Add a factory constructor to create a Project from JSON
   factory Project.fromJson(Map<String, dynamic> json) {
+    List<String> technologies = [];
+    if (json['technologies'] != null && json['technologies'].isNotEmpty) {
+      technologies = List<String>.from(jsonDecode(json['technologies']));
+    }
+    
     return Project(
-      title: json['title'] as String,
-      description: json['description'] as String,
-      imageUrl: json['imageUrl'] as String,
-      githubUrl: json['githubUrl'] as String?,
-      liveUrl: json['liveUrl'] as String?,
-      technologies: (json['technologies'] as List<dynamic>).cast<String>(),
+      id: json['id']?.toString() ?? '',
+      title: json['title'] ?? 'Untitled Project',
+      description: json['description'] ?? 'No description available',
+      imageUrl: json['imageUrl'] ?? 'assets/images/placeholder.png',
+      githubUrl: json['githubUrl'] ?? '',
+      technologies: technologies,
+      liveUrl: json['liveUrl']?.toString(),
     );
   }
 
-  // Optional: Add a method to convert Project to JSON
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'description': description,
       'imageUrl': imageUrl,
       'githubUrl': githubUrl,
+      'technologies': jsonEncode(technologies),
       'liveUrl': liveUrl,
-      'technologies': technologies,
     };
   }
+}
+
+enum SortCriteria {
+  title,
+  technologyCount,
 }

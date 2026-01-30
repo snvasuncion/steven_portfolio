@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:steven_asuncion_portfolio/blocs/navigation_bloc.dart';
-import 'package:steven_asuncion_portfolio/utility/page_transition.dart';
 import 'package:steven_asuncion_portfolio/views/about_section.dart';
 import 'package:steven_asuncion_portfolio/views/contact_section.dart';
 import 'package:steven_asuncion_portfolio/views/project_section.dart';
@@ -25,13 +24,11 @@ class HomePage extends StatelessWidget {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Only show ProfileSection on desktop when About is selected
-                  if (isDesktop &&
-                      state.selectedSection == NavigationEvent.about)
+                  if (isDesktop && state.selectedSection == NavigationEvent.about)
                     const SizedBox(
                       width: 350,
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(16.0),
                         child: ProfileSection(),
                       ),
                     ),
@@ -57,14 +54,9 @@ class HomePage extends StatelessWidget {
                               padding: const EdgeInsets.all(24.0),
                               child: Column(
                                 children: [
-                                  PageTransition(
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeInOut,
-                                    child: Container(
-                                      key: ValueKey(state.selectedSection),
-                                      child: _buildContentSection(
-                                          state.selectedSection),
-                                    ),
+                                  Container(
+                                    key: ValueKey(state.selectedSection),
+                                    child: _buildContentSection(state.selectedSection),
                                   ),
                                 ],
                               ),
@@ -83,8 +75,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(
-      BuildContext context, NavigationState state, bool isDesktop) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, NavigationState state, bool isDesktop) {
     return AppBar(
       title: const Text('My Portfolio'),
       elevation: 0,
@@ -97,20 +88,21 @@ class HomePage extends StatelessWidget {
             label: 'About',
             event: NavigationEvent.about,
             isSelected: state.selectedSection == NavigationEvent.about,
+            isDisabled: state.selectedSection == NavigationEvent.about,
           ),
-
           _buildAppBarButton(
             context: context,
             label: 'Projects',
             event: NavigationEvent.projects,
             isSelected: state.selectedSection == NavigationEvent.projects,
+            isDisabled: state.selectedSection == NavigationEvent.projects,
           ),
-          // Contact Button with animation
           _buildAppBarButton(
             context: context,
             label: 'Contact',
             event: NavigationEvent.contact,
             isSelected: state.selectedSection == NavigationEvent.contact,
+            isDisabled: state.selectedSection == NavigationEvent.contact,
           ),
           const SizedBox(width: 16),
         ],
@@ -118,17 +110,18 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  /// Builds an animated app bar button
   Widget _buildAppBarButton({
     required BuildContext context,
     required String label,
     required NavigationEvent event,
     required bool isSelected,
+    required bool isDisabled,
   }) {
     return AnimatedAppBarButton(
       label: label,
       event: event,
       isSelected: isSelected,
+      isDisabled: isDisabled,
     );
   }
 
@@ -165,6 +158,7 @@ class HomePage extends StatelessWidget {
                 label: 'Profile',
                 event: NavigationEvent.profile,
                 selected: state.selectedSection == NavigationEvent.profile,
+                disabled: state.selectedSection == NavigationEvent.profile,
               ),
               _buildDrawerItem(
                 context,
@@ -172,6 +166,7 @@ class HomePage extends StatelessWidget {
                 label: 'About',
                 event: NavigationEvent.about,
                 selected: state.selectedSection == NavigationEvent.about,
+                disabled: state.selectedSection == NavigationEvent.about,
               ),
               _buildDrawerItem(
                 context,
@@ -179,6 +174,7 @@ class HomePage extends StatelessWidget {
                 label: 'Projects',
                 event: NavigationEvent.projects,
                 selected: state.selectedSection == NavigationEvent.projects,
+                disabled: state.selectedSection == NavigationEvent.projects,
               ),
               _buildDrawerItem(
                 context,
@@ -186,6 +182,7 @@ class HomePage extends StatelessWidget {
                 label: 'Contact',
                 event: NavigationEvent.contact,
                 selected: state.selectedSection == NavigationEvent.contact,
+                disabled: state.selectedSection == NavigationEvent.contact,
               ),
             ],
           ),
@@ -200,6 +197,7 @@ class HomePage extends StatelessWidget {
     required String label,
     required NavigationEvent event,
     required bool selected,
+    required bool disabled,
   }) {
     return ListTile(
       leading: Icon(
@@ -214,10 +212,13 @@ class HomePage extends StatelessWidget {
         ),
       ),
       selected: selected,
-      onTap: () {
-        context.read<NavigationBloc>().add(event);
-        Navigator.pop(context);
-      },
+      enabled: !disabled,
+      onTap: disabled 
+          ? null 
+          : () {
+              context.read<NavigationBloc>().add(event);
+              Navigator.pop(context);
+            },
     );
   }
 
@@ -226,12 +227,10 @@ class HomePage extends StatelessWidget {
       case NavigationEvent.about:
         return const AboutSection();
       case NavigationEvent.projects:
-        return ProjectsSection();
+        return const ProjectsSection();
       case NavigationEvent.contact:
         return const ContactSection();
       case NavigationEvent.profile:
-        // For mobile, show ProfileSection in main content area
-        // For desktop, this should never be reached since Profile is shown on the side
         return const ProfileSection();
     }
   }
@@ -241,12 +240,14 @@ class AnimatedAppBarButton extends StatefulWidget {
   final String label;
   final NavigationEvent event;
   final bool isSelected;
+  final bool isDisabled;
 
   const AnimatedAppBarButton({
     super.key,
     required this.label,
     required this.event,
     required this.isSelected,
+    required this.isDisabled,
   });
 
   @override
@@ -259,15 +260,15 @@ class _AnimatedAppBarButtonState extends State<AnimatedAppBarButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapDown: (_) => setState(() => _scale = 0.95),
-      onTapUp: (_) => setState(() => _scale = 1.0),
-      onTapCancel: () => setState(() => _scale = 1.0),
+      onTapDown: widget.isDisabled ? null : (_) => setState(() => _scale = 0.95),
+      onTapUp: widget.isDisabled ? null : (_) => setState(() => _scale = 1.0),
+      onTapCancel: widget.isDisabled ? null : () => setState(() => _scale = 1.0),
       child: TweenAnimationBuilder<double>(
         duration: const Duration(milliseconds: 100),
         tween: Tween(begin: 1.0, end: _scale),
         builder: (context, scale, child) {
           return Transform.scale(
-            scale: scale,
+            scale: widget.isDisabled ? 1.0 : scale,
             child: child,
           );
         },
@@ -276,24 +277,22 @@ class _AnimatedAppBarButtonState extends State<AnimatedAppBarButton> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: widget.isSelected
-                ? Color.lerp(
-                    Colors.transparent, Theme.of(context).primaryColor, 0.2)
+                ? Color.lerp(Colors.transparent, Theme.of(context).primaryColor, 0.2)
                 : Colors.transparent,
           ),
           child: TextButton(
-            onPressed: () => context.read<NavigationBloc>().add(widget.event),
+            onPressed: widget.isDisabled 
+                ? null 
+                : () => context.read<NavigationBloc>().add(widget.event),
             style: TextButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             child: AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 150),
               style: TextStyle(
                 color: widget.isSelected ? Colors.yellow : Colors.white,
-                fontWeight:
-                    widget.isSelected ? FontWeight.bold : FontWeight.normal,
+                fontWeight: widget.isSelected ? FontWeight.bold : FontWeight.normal,
               ),
               child: Text(widget.label),
             ),

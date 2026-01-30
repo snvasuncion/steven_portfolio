@@ -1,4 +1,4 @@
-import 'package:steven_asuncion_portfolio/blocs/navigation_bloc.dart';
+import "package:steven_asuncion_portfolio/blocs/navigation_bloc.dart";
 
 class NavigationViewModel {
   final NavigationBloc navigationBloc;
@@ -22,20 +22,20 @@ class NavigationViewModel {
   String getCurrentSectionTitle() {
     switch (currentSection) {
       case NavigationEvent.profile:
-        return 'Profile';
+        return "Profile";
       case NavigationEvent.projects:
-        return 'Projects';
+        return "Projects";
       default:
-        return 'Portfolio';
+        return "Portfolio";
     }
   }
 
   void navigateToSection(String sectionName) {
     switch (sectionName.toLowerCase()) {
-      case 'profile':
+      case "profile":
         navigateToProfile();
         break;
-      case 'projects':
+      case "projects":
         navigateToProjects();
         break;
       default:

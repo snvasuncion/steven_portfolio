@@ -2,12 +2,70 @@ import 'package:flutter/material.dart';
 import '../utility/delayed_fade_scale.dart';
 import '../viewmodels/profile_viewmodel.dart';
 
-class ProfileSection extends StatelessWidget {
+class ProfileSection extends StatefulWidget {
   const ProfileSection({super.key});
 
   @override
+  State<ProfileSection> createState() => _ProfileSectionState();
+}
+
+class _ProfileSectionState extends State<ProfileSection> {
+  final ProfileViewModel viewModel = ProfileViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  Future<void> _loadProfileData() async {
+    await viewModel.fetchProfileData();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final viewModel = ProfileViewModel();
+    if (viewModel.isLoading) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).primaryColor,
+        ),
+      );
+    }
+
+    if (viewModel.error != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.red, size: 48),
+            const SizedBox(height: 16),
+            Text(
+              'Failed to load profile data',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.red,
+                  ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                viewModel.error!,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _loadProfileData,
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
 
     return DelayedFadeScale(
       delay: const Duration(milliseconds: 200),
@@ -28,7 +86,6 @@ class ProfileSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Profile Image
               DelayedFadeScale(
                 delay: const Duration(milliseconds: 300),
                 child: CircleAvatar(
@@ -42,8 +99,6 @@ class ProfileSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Name & Title
               DelayedFadeScale(
                 delay: const Duration(milliseconds: 400),
                 child: Text(
@@ -66,10 +121,7 @@ class ProfileSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-
               const SizedBox(height: 30),
-
-              // Experience Section
               DelayedFadeScale(
                 delay: const Duration(milliseconds: 500),
                 child: Align(
@@ -84,54 +136,59 @@ class ProfileSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              
-              ...viewModel.experience.asMap().entries.map((entry) {
-                int index = entry.key;
-                var exp = entry.value;
-                return DelayedFadeScale(
-                  delay: Duration(milliseconds: 550 + (index * 100)),
-                  child: Padding(
+              if (viewModel.safeExperience.isNotEmpty) ...{
+                ...viewModel.safeExperience.map((exp) {
+                  return Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          exp['title']!,
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          exp['title']?.toString() ?? 'Unknown Position',
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "${exp['company']} • ${exp['period']}",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.grey[600],
-                              ),
+                          "${exp['company'] ?? 'Unknown Company'} • ${exp['period'] ?? ''}",
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Colors.grey[600],
+                                  ),
                         ),
                         const SizedBox(height: 8),
-                        ...((exp['responsibilities'] as List<String>).map(
-                          (responsibility) => Padding(
-                            padding: const EdgeInsets.only(bottom: 4),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text("• "),
-                                Expanded(child: Text(responsibility)),
-                              ],
-                            ),
-                          ),
-                        )),
+                        ...((exp['responsibilities'] as List<dynamic>?)?.map(
+                              (responsibility) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text("• "),
+                                    Expanded(
+                                        child: Text(responsibility.toString())),
+                                  ],
+                                ),
+                              ),
+                            ) ??
+                            []),
                       ],
                     ),
+                  );
+                }),
+              } else ...{
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'No experience data available',
+                    style: TextStyle(color: Colors.grey[600]),
                   ),
-                );
-              }).toList(),
-
+                ),
+              },
               const SizedBox(height: 10),
-
-              // Skills Section
               DelayedFadeScale(
-                delay: Duration(milliseconds: 550 + (viewModel.experience.length * 100)),
+                delay: const Duration(milliseconds: 600),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -144,30 +201,33 @@ class ProfileSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              
-              DelayedFadeScale(
-                delay: Duration(milliseconds: 600 + (viewModel.experience.length * 100)),
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: viewModel.getAllSkills().map((skill) {
-                    return Chip(
-                      label: Text(skill),
-                      backgroundColor: Color.lerp(
-                          Colors.transparent, Theme.of(context).primaryColor, 0.1)!,
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    );
-                  }).toList(),
+              if (viewModel.getAllSkills().isNotEmpty) ...{
+                DelayedFadeScale(
+                  delay: const Duration(milliseconds: 650),
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: viewModel.getAllSkills().map((skill) {
+                      return Chip(
+                        label: Text(skill),
+                        backgroundColor: Color.lerp(Colors.transparent,
+                            Theme.of(context).primaryColor, 0.1)!,
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
-              ),
-
+              } else ...{
+                Text(
+                  'No skills data available',
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+              },
               const SizedBox(height: 30),
-
-              // Education Section
               DelayedFadeScale(
-                delay: Duration(milliseconds: 650 + (viewModel.experience.length * 100)),
+                delay: const Duration(milliseconds: 700),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -180,35 +240,38 @@ class ProfileSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              
-              ...viewModel.education.asMap().entries.map((entry) {
-                int index = entry.key;
-                var edu = entry.value;
-                return DelayedFadeScale(
-                  delay: Duration(milliseconds: 700 + (viewModel.experience.length * 100) + (index * 50)),
-                  child: Padding(
+              if (viewModel.safeEducation.isNotEmpty) ...{
+                ...viewModel.safeEducation.map(
+                  (edu) => Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          edu['degree']!,
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          edu['degree'] ?? 'Unknown Degree',
+                          style:
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "${edu['institution']} • ${edu['year']}",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.grey[600],
-                              ),
+                          "${edu['institution'] ?? ''} • ${edu['year'] ?? ''}",
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Colors.grey[600],
+                                  ),
                         ),
                       ],
                     ),
                   ),
-                );
-              }).toList(),
+                ),
+              } else ...{
+                Text(
+                  'No education data available',
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+              },
             ],
           ),
         ),
