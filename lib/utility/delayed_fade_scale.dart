@@ -5,7 +5,7 @@ class DelayedFadeScale extends StatefulWidget {
   final Duration delay;
   final Duration duration;
   final Curve curve;
-  final bool animateOnExit; // NEW: Control whether to animate on exit
+  final bool animateOnExit;
 
   const DelayedFadeScale({
     super.key,
@@ -13,7 +13,7 @@ class DelayedFadeScale extends StatefulWidget {
     this.delay = Duration.zero,
     this.duration = const Duration(milliseconds: 500),
     this.curve = Curves.easeInOut,
-    this.animateOnExit = false, 
+    this.animateOnExit = false,
   });
 
   @override
@@ -30,17 +30,17 @@ class _DelayedFadeScaleState extends State<DelayedFadeScale>
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       duration: widget.duration,
       vsync: this,
     );
-    
+
     _opacityAnimation = CurvedAnimation(
       parent: _controller,
       curve: widget.curve,
     );
-    
+
     _scaleAnimation = Tween<double>(
       begin: 0.9,
       end: 1.0,
@@ -50,8 +50,7 @@ class _DelayedFadeScaleState extends State<DelayedFadeScale>
         curve: widget.curve,
       ),
     );
-    
-    // Start animation after delay
+
     Future.delayed(widget.delay, () {
       if (mounted && !_isExiting) {
         _controller.forward();
@@ -62,8 +61,7 @@ class _DelayedFadeScaleState extends State<DelayedFadeScale>
   @override
   void didUpdateWidget(DelayedFadeScale oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
-    // If widget changed and we should animate on exit, reverse animation
+
     if (widget.child != oldWidget.child && widget.animateOnExit) {
       _reverseAnimation();
     }
