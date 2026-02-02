@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../data/data_provider.dart'; // Add this import
 
 class ProfileViewModel {
   final String profileId = "1";
@@ -24,7 +25,13 @@ class ProfileViewModel {
   bool isLoading = false;
   String? error;
 
-  Future<void> fetchProfileData() async {
+ Future<void> fetchProfileData() async {
+  final cachedData = DataProvider().cachedData;
+  if (cachedData != null) {
+    setDataFromMap(cachedData);
+    isLoading = false;
+    return;
+  }
     try {
       isLoading = true;
       error = null;
@@ -36,42 +43,44 @@ class ProfileViewModel {
       }
 
       Map<String, dynamic> profileData = jsonDecode(response.body);
-
-      name = profileData['name'];
-      title = profileData['title'];
-      email = profileData['email'];
-      location = profileData['location'];
-      profileImage = profileData['profileImage'];
-      githubUrl = profileData['githubUrl'];
-      linkedinUrl = profileData['linkedinUrl'];
-
-      technicalSkills = _decodeStringArray(profileData['technicalSkills']);
-      frameworks = _decodeStringArray(profileData['frameworks']);
-      tools = _decodeStringArray(profileData['tools']);
-
-      if (profileData['education'] != null &&
-          profileData['education'].isNotEmpty) {
-        final eduList = List<Map<String, dynamic>>.from(
-            jsonDecode(profileData['education']));
-        education =
-            eduList.map((edu) => Map<String, String>.from(edu)).toList();
-      } else {
-        education = [];
-      }
-
-      if (profileData['experience'] != null &&
-          profileData['experience'].isNotEmpty) {
-        experience = List<Map<String, dynamic>>.from(
-            jsonDecode(profileData['experience']));
-      } else {
-        experience = [];
-      }
+      setDataFromMap(profileData);
     } catch (e) {
       error = 'Error loading profile data: $e';
-
       _setDefaultValues();
     } finally {
       isLoading = false;
+    }
+  }
+
+  void setDataFromMap(Map<String, dynamic> profileData) {
+    name = profileData['name'];
+    title = profileData['title'];
+    email = profileData['email'];
+    location = profileData['location'];
+    profileImage = profileData['profileImage'];
+    githubUrl = profileData['githubUrl'];
+    linkedinUrl = profileData['linkedinUrl'];
+
+    technicalSkills = _decodeStringArray(profileData['technicalSkills']);
+    frameworks = _decodeStringArray(profileData['frameworks']);
+    tools = _decodeStringArray(profileData['tools']);
+
+    if (profileData['education'] != null &&
+        profileData['education'].isNotEmpty) {
+      final eduList = List<Map<String, dynamic>>.from(
+          jsonDecode(profileData['education']));
+      education =
+          eduList.map((edu) => Map<String, String>.from(edu)).toList();
+    } else {
+      education = [];
+    }
+
+    if (profileData['experience'] != null &&
+        profileData['experience'].isNotEmpty) {
+      experience = List<Map<String, dynamic>>.from(
+          jsonDecode(profileData['experience']));
+    } else {
+      experience = [];
     }
   }
 

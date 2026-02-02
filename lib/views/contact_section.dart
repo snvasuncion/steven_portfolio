@@ -43,7 +43,8 @@ class _ContactSectionState extends State<ContactSection> {
     }
   }
 
-  void _showMessageDialog(BuildContext context, String name, String message, DateTime timestamp) {
+  void _showMessageDialog(
+      BuildContext context, String name, String message, DateTime timestamp) {
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -74,12 +75,14 @@ class _ContactSectionState extends State<ContactSection> {
               const SizedBox(height: 16),
               Text(
                 MessageHelper.formatTimestamp(timestamp),
-                style: GoogleFonts.openSans(fontSize: 13, color: Colors.grey[600]),
+                style:
+                    GoogleFonts.openSans(fontSize: 13, color: Colors.grey[600]),
               ),
               const SizedBox(height: 24),
               Text(
                 message,
-                style: GoogleFonts.openSans(fontSize: 16, height: 1.6, color: Colors.grey[800]),
+                style: GoogleFonts.openSans(
+                    fontSize: 16, height: 1.6, color: Colors.grey[800]),
               ),
               const SizedBox(height: 32),
               Align(
@@ -129,16 +132,19 @@ class _ContactSectionState extends State<ContactSection> {
               delay: const Duration(milliseconds: 200),
               child: Text(
                 'Contact',
-                style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold, color: primaryColor),
+                style: GoogleFonts.poppins(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor),
               ),
             ),
             const SizedBox(height: 20),
-
             DelayedFadeScale(
               delay: const Duration(milliseconds: 300),
               child: Card(
                 elevation: 4,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -147,8 +153,10 @@ class _ContactSectionState extends State<ContactSection> {
                         title: 'Email',
                         subtitle: 'Send me a direct message',
                         details: viewModel.getEmail(),
-                        icon: const Icon(Icons.email_outlined, color: primaryColor, size: 28),
-                        onTap: () => _launchUrl('mailto:${viewModel.getEmail()}'),
+                        icon: const Icon(Icons.email_outlined,
+                            color: primaryColor, size: 28),
+                        onTap: () =>
+                            _launchUrl('mailto:${viewModel.getEmail()}'),
                         index: 0,
                       ),
                       const SizedBox(height: 16),
@@ -156,7 +164,8 @@ class _ContactSectionState extends State<ContactSection> {
                         title: 'LinkedIn',
                         subtitle: 'Connect with me professionally',
                         details: viewModel.getLinkedinUrl(),
-                        icon: const FaIcon(FontAwesomeIcons.linkedin, color: primaryColor, size: 28),
+                        icon: const FaIcon(FontAwesomeIcons.linkedin,
+                            color: primaryColor, size: 28),
                         onTap: () => _launchUrl(viewModel.getLinkedinUrl()),
                         index: 1,
                       ),
@@ -165,7 +174,8 @@ class _ContactSectionState extends State<ContactSection> {
                         title: 'GitHub',
                         subtitle: 'Check out my projects',
                         details: viewModel.getGithubUrl(),
-                        icon: const Icon(Icons.code_outlined, color: primaryColor, size: 28),
+                        icon: const Icon(Icons.code_outlined,
+                            color: primaryColor, size: 28),
                         onTap: () => _launchUrl(viewModel.getGithubUrl()),
                         index: 2,
                       ),
@@ -175,12 +185,12 @@ class _ContactSectionState extends State<ContactSection> {
               ),
             ),
             const SizedBox(height: 32),
-
             DelayedFadeScale(
               delay: const Duration(milliseconds: 400),
               child: Card(
                 elevation: 4,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: SingleChildScrollView(
@@ -191,16 +201,19 @@ class _ContactSectionState extends State<ContactSection> {
                         children: [
                           Text(
                             'Send me a message',
-                            style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold, color: primaryColor),
+                            style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             'New Opportunities, Commissions, connections? Feel free to reach out!',
-                            style: GoogleFonts.openSans(color: Colors.grey[600]),
+                            style:
+                                GoogleFonts.openSans(color: Colors.grey[600]),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24),
-
                           DelayedFadeScale(
                             delay: const Duration(milliseconds: 500),
                             child: _buildTextField(
@@ -208,13 +221,13 @@ class _ContactSectionState extends State<ContactSection> {
                               label: 'Your Name',
                               icon: Icons.person_outline,
                               validator: (value) {
-                                if (value == null || value.isEmpty) return 'Please enter your name';
+                                if (value == null || value.isEmpty)
+                                  return 'Please enter your name';
                                 return null;
                               },
                             ),
                           ),
                           const SizedBox(height: 20),
-
                           DelayedFadeScale(
                             delay: const Duration(milliseconds: 600),
                             child: _buildTextField(
@@ -222,14 +235,15 @@ class _ContactSectionState extends State<ContactSection> {
                               label: 'Your Email',
                               icon: Icons.email_outlined,
                               validator: (value) {
-                                if (value == null || value.isEmpty) return 'Please enter your email';
-                                if (!value.contains('@')) return 'Please enter a valid email';
+                                if (value == null || value.isEmpty)
+                                  return 'Please enter your email';
+                                if (!value.contains('@'))
+                                  return 'Please enter a valid email';
                                 return null;
                               },
                             ),
                           ),
                           const SizedBox(height: 20),
-
                           DelayedFadeScale(
                             delay: const Duration(milliseconds: 700),
                             child: _buildTextField(
@@ -237,21 +251,23 @@ class _ContactSectionState extends State<ContactSection> {
                               label: 'Your Message',
                               maxLines: 5,
                               validator: (value) {
-                                if (value == null || value.isEmpty) return 'Please enter your message';
+                                if (value == null || value.isEmpty)
+                                  return 'Please enter your message';
                                 return null;
                               },
                             ),
                           ),
                           const SizedBox(height: 32),
-
                           DelayedFadeScale(
                             delay: const Duration(milliseconds: 800),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: primaryColor,
                                 foregroundColor: whiteColor,
-                                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
                                 elevation: 2,
                               ),
                               onPressed: () async {
@@ -264,9 +280,11 @@ class _ContactSectionState extends State<ContactSection> {
                                       message: _messageController.text,
                                     );
                                     if (currentContext.mounted) {
-                                      ScaffoldMessenger.of(currentContext).showSnackBar(
+                                      ScaffoldMessenger.of(currentContext)
+                                          .showSnackBar(
                                         const SnackBar(
-                                          content: Text('Message sent successfully!'),
+                                          content: Text(
+                                              'Message sent successfully!'),
                                           backgroundColor: Colors.green,
                                         ),
                                       );
@@ -278,9 +296,11 @@ class _ContactSectionState extends State<ContactSection> {
                                     }
                                   } catch (error) {
                                     if (currentContext.mounted) {
-                                      ScaffoldMessenger.of(currentContext).showSnackBar(
+                                      ScaffoldMessenger.of(currentContext)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text('Error sending message: $error'),
+                                          content: Text(
+                                              'Error sending message: $error'),
                                           backgroundColor: Colors.red,
                                         ),
                                       );
@@ -290,7 +310,8 @@ class _ContactSectionState extends State<ContactSection> {
                               },
                               child: Text(
                                 'Send Message',
-                                style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -301,7 +322,6 @@ class _ContactSectionState extends State<ContactSection> {
                 ),
               ),
             ),
-
             const SizedBox(height: 32),
             if (_storedMessages.isNotEmpty)
               DelayedFadeScale(
@@ -313,7 +333,7 @@ class _ContactSectionState extends State<ContactSection> {
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Center(
                         child: Text(
-                          'Recent Messages',
+                          'Message Board',
                           style: GoogleFonts.poppins(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -323,7 +343,6 @@ class _ContactSectionState extends State<ContactSection> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
                     Column(
                       children: _storedMessages.reversed.take(5).map((message) {
                         final timestamp = message['timestamp'] != null
@@ -354,15 +373,21 @@ class _ContactSectionState extends State<ContactSection> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                message['name']?.toString().toUpperCase() ?? 'VISITOR',
+                                                message['name']
+                                                        ?.toString()
+                                                        .toUpperCase() ??
+                                                    'VISITOR',
                                                 style: GoogleFonts.poppins(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w600,
@@ -372,7 +397,8 @@ class _ContactSectionState extends State<ContactSection> {
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                message['email']?.toString() ?? 'anonymous@email.com',
+                                                message['email']?.toString() ??
+                                                    'anonymous@email.com',
                                                 style: GoogleFonts.openSans(
                                                   fontSize: 13,
                                                   color: Colors.grey[600],
@@ -398,7 +424,8 @@ class _ContactSectionState extends State<ContactSection> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 0, 16, 16),
                                 child: Text(
                                   message['message']?.toString() ?? '',
                                   style: GoogleFonts.openSans(
@@ -409,7 +436,8 @@ class _ContactSectionState extends State<ContactSection> {
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
                                 decoration: BoxDecoration(
                                   color: Colors.grey[50],
                                   borderRadius: const BorderRadius.only(
@@ -418,7 +446,8 @@ class _ContactSectionState extends State<ContactSection> {
                                   ),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       MessageHelper.formatTimestamp(timestamp),
@@ -431,7 +460,8 @@ class _ContactSectionState extends State<ContactSection> {
                                       onPressed: () {
                                         _showMessageDialog(
                                           context,
-                                          message['name']?.toString() ?? 'Visitor',
+                                          message['name']?.toString() ??
+                                              'Visitor',
                                           message['message']?.toString() ?? '',
                                           timestamp,
                                         );
@@ -453,20 +483,24 @@ class _ContactSectionState extends State<ContactSection> {
                         );
                       }).toList(),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Row(
                         children: [
-                          Expanded(child: Divider(color: Colors.grey[300], thickness: 1)),
+                          Expanded(
+                              child: Divider(
+                                  color: Colors.grey[300], thickness: 1)),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
                               '${_storedMessages.length} messages total',
-                              style: GoogleFonts.openSans(fontSize: 12, color: Colors.grey[500]),
+                              style: GoogleFonts.openSans(
+                                  fontSize: 12, color: Colors.grey[500]),
                             ),
                           ),
-                          Expanded(child: Divider(color: Colors.grey[300], thickness: 1)),
+                          Expanded(
+                              child: Divider(
+                                  color: Colors.grey[300], thickness: 1)),
                         ],
                       ),
                     ),
@@ -526,7 +560,8 @@ class _ContactSectionState extends State<ContactSection> {
                       const SizedBox(height: 4),
                       Text(
                         subtitle,
-                        style: GoogleFonts.openSans(fontSize: 14, color: Colors.grey[600]),
+                        style: GoogleFonts.openSans(
+                            fontSize: 14, color: Colors.grey[600]),
                       ),
                       const SizedBox(height: 8),
                       SelectableText(
@@ -540,7 +575,8 @@ class _ContactSectionState extends State<ContactSection> {
                     ],
                   ),
                 ),
-                const Icon(Icons.chevron_right_rounded, color: primaryColor, size: 28),
+                const Icon(Icons.chevron_right_rounded,
+                    color: primaryColor, size: 28),
               ],
             ),
           ),

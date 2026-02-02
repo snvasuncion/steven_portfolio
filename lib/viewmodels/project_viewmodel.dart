@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import "../models/project.dart";
+import '../data/data_provider.dart';
 
 class ProjectViewModel {
   final String apiUrl =
@@ -11,6 +12,13 @@ class ProjectViewModel {
   String? error;
 
   Future<void> fetchProjects() async {
+    final cachedProjects = DataProvider().cachedProjects;
+    if (cachedProjects != null && cachedProjects.isNotEmpty) {
+      _projects = _parseProjectsFromData(cachedProjects);
+      isLoading = false;
+      return;
+    }
+
     try {
       isLoading = true;
       error = null;
@@ -22,27 +30,7 @@ class ProjectViewModel {
       }
 
       List<dynamic> projectsData = jsonDecode(response.body);
-
-      _projects = projectsData.map((projectData) {
-        List<String> technologies = [];
-        if (projectData['technologies'] is String &&
-            (projectData['technologies'] as String).isNotEmpty) {
-          technologies =
-              List<String>.from(jsonDecode(projectData['technologies']));
-        }
-
-        return Project(
-          id: projectData['id']?.toString() ?? '',
-          title: projectData['title']?.toString() ?? 'Untitled Project',
-          description: projectData['description']?.toString() ??
-              'No description available',
-          imageUrl: projectData['imageUrl']?.toString() ??
-              'assets/images/placeholder.png',
-          githubUrl: projectData['githubUrl']?.toString() ?? '',
-          technologies: technologies,
-          liveUrl: projectData['liveUrl']?.toString(),
-        );
-      }).toList();
+      _projects = _parseProjectsFromData(projectsData);
     } catch (e) {
       error = 'Error loading projects: $e';
 
@@ -60,6 +48,30 @@ class ProjectViewModel {
     } finally {
       isLoading = false;
     }
+  }
+
+  // ADD THIS HELPER METHOD:
+  List<Project> _parseProjectsFromData(List<dynamic> projectsData) {
+    return projectsData.map((projectData) {
+      List<String> technologies = [];
+      if (projectData['technologies'] is String &&
+          (projectData['technologies'] as String).isNotEmpty) {
+        technologies =
+            List<String>.from(jsonDecode(projectData['technologies']));
+      }
+
+      return Project(
+        id: projectData['id']?.toString() ?? '',
+        title: projectData['title']?.toString() ?? 'Untitled Project',
+        description: projectData['description']?.toString() ??
+            'No description available',
+        imageUrl: projectData['imageUrl']?.toString() ??
+            'assets/images/placeholder.png',
+        githubUrl: projectData['githubUrl']?.toString() ?? '',
+        technologies: technologies,
+        liveUrl: projectData['liveUrl']?.toString(),
+      );
+    }).toList();
   }
 
   List<Project> get projects => _projects ?? [];

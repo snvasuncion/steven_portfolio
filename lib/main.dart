@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/navigation_bloc.dart';
 import 'views/home_page.dart';
+import 'data/data_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DataProvider().getProfileData();
+  await DataProvider().getProjectsData();
   runApp(const MyApp());
 }
 
