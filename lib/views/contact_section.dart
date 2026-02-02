@@ -221,8 +221,9 @@ class _ContactSectionState extends State<ContactSection> {
                               label: 'Your Name',
                               icon: Icons.person_outline,
                               validator: (value) {
-                                if (value == null || value.isEmpty)
+                                if (value == null || value.isEmpty) {
                                   return 'Please enter your name';
+                                }
                                 return null;
                               },
                             ),
@@ -235,10 +236,12 @@ class _ContactSectionState extends State<ContactSection> {
                               label: 'Your Email',
                               icon: Icons.email_outlined,
                               validator: (value) {
-                                if (value == null || value.isEmpty)
+                                if (value == null || value.isEmpty) {
                                   return 'Please enter your email';
-                                if (!value.contains('@'))
+                                }
+                                if (!value.contains('@')) {
                                   return 'Please enter a valid email';
+                                }
                                 return null;
                               },
                             ),
@@ -251,8 +254,9 @@ class _ContactSectionState extends State<ContactSection> {
                               label: 'Your Message',
                               maxLines: 5,
                               validator: (value) {
-                                if (value == null || value.isEmpty)
+                                if (value == null || value.isEmpty) {
                                   return 'Please enter your message';
+                                }
                                 return null;
                               },
                             ),
