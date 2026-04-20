@@ -50,8 +50,7 @@ class AboutViewModel {
   bool isLoading = false;
   String? error;
 
-  Future<void> fetchAboutData() async {
-  }
+  Future<void> fetchAboutData() async {}
 
   String get safeIntro => intro ?? "Loading...";
   List<String> get safeWhatIDo => whatIDo ?? [];

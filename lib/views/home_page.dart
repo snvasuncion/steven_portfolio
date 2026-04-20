@@ -271,8 +271,7 @@ class HomePage extends StatelessWidget {
                           return Shimmer.fromColors(
                             baseColor: isDark ? navColor : Colors.white,
                             highlightColor: Colors.deepPurpleAccent[100]!,
-                            child:
-                                staticImage,
+                            child: staticImage,
                           );
                         },
                       ),

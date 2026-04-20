@@ -87,8 +87,7 @@ class ProfileViewModel {
     }
   ];
 
-  Future<void> fetchProfileData() async {
-  }
+  Future<void> fetchProfileData() async {}
 
   String get safeName => name ?? "Loading...";
   String get safeTitle => title ?? "Software Developer";

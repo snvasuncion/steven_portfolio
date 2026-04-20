@@ -29,10 +29,13 @@ class _AboutSectionState extends State<AboutSection> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 900),
-        padding: const EdgeInsets.all(24),
+        padding:
+            EdgeInsets.symmetric(horizontal: isMobile ? 16 : 24, vertical: 24),
         child: _buildContent(),
       ),
     );
@@ -103,21 +106,29 @@ class _AboutSectionState extends State<AboutSection> {
             ),
           ),
           const SizedBox(height: 24),
-          Wrap(
-            spacing: 16,
-            runSpacing: 16,
-            children: viewModel.skills
-                .map((skill) => _buildSkillCard(skill))
-                .toList(),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isMobile = MediaQuery.of(context).size.width < 600;
+              final double cardWidth =
+                  isMobile ? (constraints.maxWidth - 20) / 2 : 160;
+
+              return Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: viewModel.skills
+                    .map((skill) => _buildSkillCard(skill, cardWidth))
+                    .toList(),
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSkillCard(Skill skill) {
+  Widget _buildSkillCard(Skill skill, [double width = 160]) {
     return SizedBox(
-      width: 160,
+      width: width,
       child: HoverInteractiveContainer(
         child: Container(
           padding: const EdgeInsets.all(16),

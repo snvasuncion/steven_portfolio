@@ -278,7 +278,6 @@ class _SplashFadeInWrapperState extends State<SplashFadeInWrapper>
             opacity: _appOpacity,
             child: widget.child,
           ),
-
         if (_showSplash)
           Positioned.fill(
             child: FadeTransition(
@@ -300,21 +299,33 @@ class _SplashFadeInWrapperState extends State<SplashFadeInWrapper>
                               loop: 1,
                               child: Image.asset(
                                 'assets/images/SNVWorks_Logo_wText.png',
-                                height: 180,
+                                height: MediaQuery.of(context).size.width < 600
+                                    ? 120
+                                    : 180,
                                 color: Theme.of(context).primaryColor,
                                 colorBlendMode: BlendMode.srcIn,
                               ),
                             ),
                             const SizedBox(height: 24),
-                            Text(
-                              'Steven Nikko Villanueva Asuncion',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
+                              child: Text(
+                                'Steven Nikko Villanueva Asuncion',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width <
+                                                  600
+                                              ? 24
+                                              : null,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                              ),
                             ),
                           ],
                         ),

@@ -121,10 +121,13 @@ class _ContactSectionState extends State<ContactSection> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 800),
-        padding: const EdgeInsets.all(24),
+        padding:
+            EdgeInsets.symmetric(horizontal: isMobile ? 12 : 24, vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -142,7 +145,7 @@ class _ContactSectionState extends State<ContactSection> {
             DelayedFadeScale(
               delay: const Duration(milliseconds: 300),
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(isMobile ? 8.0 : 24.0),
                 child: Column(
                   children: [
                     _buildContactCard(
@@ -182,7 +185,7 @@ class _ContactSectionState extends State<ContactSection> {
             DelayedFadeScale(
               delay: const Duration(milliseconds: 400),
               child: Padding(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(isMobile ? 8.0 : 24.0),
                 child: SingleChildScrollView(
                   child: Form(
                     key: _formKey,

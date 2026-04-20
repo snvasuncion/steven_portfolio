@@ -10,8 +10,10 @@ class DataProvider {
   final List<void Function(Map<String, dynamic>)> _listeners = [];
 
   List<Map<String, dynamic>> _projectsCache = [];
+  List<dynamic>? _cachedProjects;
 
   Map<String, dynamic>? get cachedData => _cachedData;
+  List<dynamic>? get cachedProjects => _cachedProjects;
 
   List<Map<String, dynamic>> get projectsData => _projectsCache;
 

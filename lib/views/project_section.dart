@@ -38,10 +38,13 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
     return Center(
       child: Container(
         constraints: const BoxConstraints(maxWidth: 800),
-        padding: const EdgeInsets.all(24),
+        padding:
+            EdgeInsets.symmetric(horizontal: isMobile ? 16 : 24, vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -125,7 +128,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                     padding: const EdgeInsets.only(bottom: 24),
                     child: HoverInteractiveContainer(
                       child: Padding(
-                        padding: const EdgeInsets.all(24.0),
+                        padding: EdgeInsets.all(isMobile ? 16.0 : 24.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -193,29 +196,29 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                             const SizedBox(height: 24),
                             DelayedFadeScale(
                               delay: const Duration(milliseconds: 150),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              child: Wrap(
+                                spacing: 12,
+                                runSpacing: 12,
+                                alignment: WrapAlignment.end,
+                                crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   if (project.githubUrl.isNotEmpty)
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 12),
-                                      child: ElevatedButton(
-                                        onPressed: () =>
-                                            _launchUrl(project.githubUrl),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(Icons.code, size: 20),
-                                            const SizedBox(width: 8),
-                                            Text(
-                                              'GitHub',
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                    ElevatedButton(
+                                      onPressed: () =>
+                                          _launchUrl(project.githubUrl),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Icon(Icons.code, size: 20),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            'GitHub',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   if (project.liveUrl != null &&
