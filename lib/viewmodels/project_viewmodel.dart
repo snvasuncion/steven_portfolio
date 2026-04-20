@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import "../models/project.dart";
 import '../data/data_provider.dart';
 
 class ProjectViewModel {
-  final String apiUrl =
-      "https://69790a31cd4fe130e3db0374.mockapi.io/portfolio/v1/projects";
 
   List<Project>? _projects;
   bool isLoading = false;
@@ -18,36 +15,20 @@ class ProjectViewModel {
       isLoading = false;
       return;
     }
-
-    try {
-      isLoading = true;
-      error = null;
-
-      final response = await http.get(Uri.parse(apiUrl));
-
-      if (response.statusCode != 200) {
-        throw Exception('Failed to fetch projects: ${response.statusCode}');
+    
+    // Default data if no cache
+    _projects = _parseProjectsFromData([
+      {
+        'id': '1',
+        'title': "Custom Weather Map App",
+        'description':
+            "Simple weather forecasting application featuring user authentication, location-based weather search, and search history functionality. Built using MVVM architecture with comprehensive error handling for a seamless user experience. \n\nThis application was developed for a job assessment.",
+        'imageUrl': "assets/images/task_manager.png",
+        'githubUrl': "https://github.com/snvasuncion/WeatherApp",
+        'technologies': '["React Native", "JavaScript", "REST API"]',
       }
-
-      List<dynamic> projectsData = jsonDecode(response.body);
-      _projects = _parseProjectsFromData(projectsData);
-    } catch (e) {
-      error = 'Error loading projects: $e';
-
-      _projects = [
-        Project(
-          id: '1',
-          title: "Custom Weather Map App",
-          description:
-              "Simple weather forecasting application featuring user authentication, location-based weather search, and search history functionality. Built using MVVM architecture with comprehensive error handling for a seamless user experience. \n\nThis application was developed for a job assessment. Details of this application is in the source code below.",
-          imageUrl: "assets/images/task_manager.png",
-          githubUrl: "https://github.com/snvasuncion/WeatherApp",
-          technologies: ["React Native", "JavaScript", "REST API"],
-        ),
-      ];
-    } finally {
-      isLoading = false;
-    }
+    ]);
+    isLoading = false;
   }
 
   // ADD THIS HELPER METHOD:
@@ -56,8 +37,12 @@ class ProjectViewModel {
       List<String> technologies = [];
       if (projectData['technologies'] is String &&
           (projectData['technologies'] as String).isNotEmpty) {
-        technologies =
-            List<String>.from(jsonDecode(projectData['technologies']));
+        try {
+          technologies =
+              List<String>.from(json.decode(projectData['technologies']));
+        } catch (e) {
+          technologies = [];
+        }
       }
 
       return Project(

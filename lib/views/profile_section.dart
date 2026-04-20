@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../utility/delayed_fade_scale.dart';
 import '../viewmodels/profile_viewmodel.dart';
 
@@ -27,45 +28,6 @@ class _ProfileSectionState extends State<ProfileSection> {
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.isLoading) {
-      return Center(
-        child: CircularProgressIndicator(
-          color: Theme.of(context).primaryColor,
-        ),
-      );
-    }
-
-    if (viewModel.error != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error_outline, color: Colors.red, size: 48),
-            const SizedBox(height: 16),
-            Text(
-              'Failed to load profile data',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.red,
-                  ),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
-                viewModel.error!,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _loadProfileData,
-              child: const Text('Retry'),
-            ),
-          ],
-        ),
-      );
-    }
 
     return DelayedFadeScale(
       delay: const Duration(milliseconds: 200),
@@ -88,13 +50,28 @@ class _ProfileSectionState extends State<ProfileSection> {
             children: [
               DelayedFadeScale(
                 delay: const Duration(milliseconds: 300),
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundColor: Color.lerp(
-                      Colors.transparent, Theme.of(context).primaryColor, 0.2)!,
-                  child: CircleAvatar(
-                    radius: 65,
-                    backgroundImage: AssetImage(viewModel.getProfileImage()),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.lerp(
+                        Colors.transparent, Theme.of(context).primaryColor, 0.2)!,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      viewModel.getProfileImage(),
+                      width: 140,
+                      height: 140,
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.high,
+                    ),
                   ),
                 ),
               ),
@@ -128,7 +105,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Experience",
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).primaryColor,
                         ),
@@ -155,7 +132,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                           "${exp['company'] ?? 'Unknown Company'} • ${exp['period'] ?? ''}",
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Colors.grey[600],
+                                    color: Theme.of(context).textTheme.bodySmall?.color,
                                   ),
                         ),
                         const SizedBox(height: 8),
@@ -182,7 +159,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Text(
                     'No experience data available',
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
                   ),
                 ),
               },
@@ -193,7 +170,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Skills & Tools",
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).primaryColor,
                         ),
@@ -208,12 +185,27 @@ class _ProfileSectionState extends State<ProfileSection> {
                     spacing: 8,
                     runSpacing: 8,
                     children: viewModel.getAllSkills().map((skill) {
-                      return Chip(
-                        label: Text(skill),
-                        backgroundColor: Color.lerp(Colors.transparent,
-                            Theme.of(context).primaryColor, 0.1)!,
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .primaryColor
+                              .withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Theme.of(context)
+                                .primaryColor
+                                .withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: Text(
+                          skill,
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
                       );
                     }).toList(),
@@ -222,7 +214,7 @@ class _ProfileSectionState extends State<ProfileSection> {
               } else ...{
                 Text(
                   'No skills data available',
-                  style: TextStyle(color: Colors.grey[600]),
+                  style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
                 ),
               },
               const SizedBox(height: 30),
@@ -232,7 +224,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Education",
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).primaryColor,
                         ),
@@ -259,7 +251,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                           "${edu['institution'] ?? ''} • ${edu['year'] ?? ''}",
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Colors.grey[600],
+                                    color: Theme.of(context).textTheme.bodySmall?.color,
                                   ),
                         ),
                       ],
@@ -269,7 +261,7 @@ class _ProfileSectionState extends State<ProfileSection> {
               } else ...{
                 Text(
                   'No education data available',
-                  style: TextStyle(color: Colors.grey[600]),
+                  style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
                 ),
               },
             ],

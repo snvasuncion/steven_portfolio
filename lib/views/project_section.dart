@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../viewmodels/project_viewmodel.dart';
 import '../models/project.dart';
 import '../utility/delayed_fade_scale.dart';
+import '../widgets/hover_interactive_container.dart';
 
 class ProjectsSection extends StatefulWidget {
   const ProjectsSection({super.key});
@@ -51,6 +52,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                 style: GoogleFonts.poppins(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),
@@ -60,10 +62,10 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                 child: CircularProgressIndicator(),
               )
             else if (_viewModel.error != null)
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
+              Container(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Theme.of(context).dividerColor),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(24),
@@ -84,7 +86,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                       Text(
                         _viewModel.error!,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.openSans(color: Colors.grey[600]),
+                        style: GoogleFonts.openSans(color: Theme.of(context).textTheme.bodySmall?.color),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
@@ -96,11 +98,14 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                 ),
               )
             else if (_viewModel.projects.isEmpty)
-              const DelayedFadeScale(
-                delay: Duration(milliseconds: 300),
-                child: Card(
-                  elevation: 4,
-                  child: Padding(
+              DelayedFadeScale(
+                delay: const Duration(milliseconds: 300),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Theme.of(context).dividerColor),
+                  ),
+                  child: const Padding(
                     padding: EdgeInsets.all(24.0),
                     child: Center(
                       child: Text('No projects to display'),
@@ -116,11 +121,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                   delay: Duration(milliseconds: 300 + (index * 150)),
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 24),
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                    child: HoverInteractiveContainer(
                       child: Padding(
                         padding: const EdgeInsets.all(24.0),
                         child: Column(
@@ -145,7 +146,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                 style: GoogleFonts.openSans(
                                   fontSize: 15,
                                   height: 1.6,
-                                  color: Colors.grey[700],
+                                  color: Theme.of(context).textTheme.bodyMedium?.color,
                                 ),
                               ),
                             ),
@@ -156,17 +157,29 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                 spacing: 8,
                                 runSpacing: 8,
                                 children: project.technologies
-                                    .map((tech) => Chip(
-                                          label: Text(tech),
-                                          backgroundColor: Color.lerp(
-                                            Colors.transparent,
-                                            Theme.of(context).primaryColor,
-                                            0.1,
-                                          )!,
-                                          labelStyle: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            color:
-                                                Theme.of(context).primaryColor,
+                                    .map((tech) => Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 6),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .primaryColor
+                                                .withValues(alpha: 0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: Theme.of(context)
+                                                  .primaryColor
+                                                  .withValues(alpha: 0.2),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            tech,
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
                                           ),
                                         ))
                                     .toList(),
@@ -182,20 +195,6 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                     Padding(
                                       padding: const EdgeInsets.only(right: 12),
                                       child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Theme.of(context).primaryColor,
-                                          foregroundColor: Colors.white,
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 20,
-                                            vertical: 12,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          elevation: 2,
-                                        ),
                                         onPressed: () =>
                                             _launchUrl(project.githubUrl),
                                         child: Row(
@@ -217,19 +216,6 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                   if (project.liveUrl != null &&
                                       project.liveUrl!.isNotEmpty)
                                     OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 20,
-                                          vertical: 12,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        side: BorderSide(
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                      ),
                                       onPressed: () =>
                                           _launchUrl(project.liveUrl!),
                                       child: Row(
@@ -243,8 +229,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                             style: GoogleFonts.poppins(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
+                                              color: Theme.of(context).primaryColor,
                                             ),
                                           ),
                                         ],

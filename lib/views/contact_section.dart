@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../utility/delayed_fade_scale.dart';
 import '../utility/message_helper.dart';
 import '../viewmodels/contact_viewmodel.dart';
+import '../widgets/hover_interactive_container.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -20,9 +21,10 @@ class _ContactSectionState extends State<ContactSection> {
   final _messageController = TextEditingController();
   final viewModel = ContactViewModel();
 
-  static const Color primaryColor = Colors.deepPurple;
-  static const Color whiteColor = Colors.white;
-  static const Color blackColor = Colors.black;
+  Color get primaryColor => Theme.of(context).primaryColor;
+  Color get textColor => Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black;
+  Color get secondaryTextColor => Theme.of(context).textTheme.bodyMedium?.color ?? Colors.grey[700]!;
+  Color get hintTextColor => Theme.of(context).textTheme.bodySmall?.color ?? Colors.grey[500]!;
 
   List<Map<String, dynamic>> _storedMessages = [];
 
@@ -56,7 +58,7 @@ class _ContactSectionState extends State<ContactSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     name.toUpperCase(),
@@ -66,23 +68,19 @@ class _ContactSectionState extends State<ContactSection> {
                       color: primaryColor,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close),
-                  ),
                 ],
               ),
               const SizedBox(height: 16),
               Text(
                 MessageHelper.formatTimestamp(timestamp),
                 style:
-                    GoogleFonts.openSans(fontSize: 13, color: Colors.grey[600]),
+                    GoogleFonts.openSans(fontSize: 13, color: hintTextColor),
               ),
               const SizedBox(height: 24),
               Text(
                 message,
                 style: GoogleFonts.openSans(
-                    fontSize: 16, height: 1.6, color: Colors.grey[800]),
+                    fontSize: 16, height: 1.6, color: textColor),
               ),
               const SizedBox(height: 32),
               Align(
@@ -141,11 +139,7 @@ class _ContactSectionState extends State<ContactSection> {
             const SizedBox(height: 20),
             DelayedFadeScale(
               delay: const Duration(milliseconds: 300),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                child: Padding(
+              child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
                     children: [
@@ -153,7 +147,7 @@ class _ContactSectionState extends State<ContactSection> {
                         title: 'Email',
                         subtitle: 'Send me a direct message',
                         details: viewModel.getEmail(),
-                        icon: const Icon(Icons.email_outlined,
+                        icon: Icon(Icons.email_outlined,
                             color: primaryColor, size: 28),
                         onTap: () =>
                             _launchUrl('mailto:${viewModel.getEmail()}'),
@@ -164,7 +158,7 @@ class _ContactSectionState extends State<ContactSection> {
                         title: 'LinkedIn',
                         subtitle: 'Connect with me professionally',
                         details: viewModel.getLinkedinUrl(),
-                        icon: const FaIcon(FontAwesomeIcons.linkedin,
+                        icon: FaIcon(FontAwesomeIcons.linkedin,
                             color: primaryColor, size: 28),
                         onTap: () => _launchUrl(viewModel.getLinkedinUrl()),
                         index: 1,
@@ -174,7 +168,7 @@ class _ContactSectionState extends State<ContactSection> {
                         title: 'GitHub',
                         subtitle: 'Check out my projects',
                         details: viewModel.getGithubUrl(),
-                        icon: const Icon(Icons.code_outlined,
+                        icon: Icon(Icons.code_outlined,
                             color: primaryColor, size: 28),
                         onTap: () => _launchUrl(viewModel.getGithubUrl()),
                         index: 2,
@@ -182,16 +176,11 @@ class _ContactSectionState extends State<ContactSection> {
                     ],
                   ),
                 ),
-              ),
             ),
             const SizedBox(height: 32),
             DelayedFadeScale(
               delay: const Duration(milliseconds: 400),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                child: Padding(
+              child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: SingleChildScrollView(
                     child: Form(
@@ -208,9 +197,9 @@ class _ContactSectionState extends State<ContactSection> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'New Opportunities, Commissions, connections? Feel free to reach out!',
+                            'New Opportunities, Commissions, Connections? Feel free to reach out!',
                             style:
-                                GoogleFonts.openSans(color: Colors.grey[600]),
+                                GoogleFonts.openSans(color: secondaryTextColor),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24),
@@ -265,15 +254,6 @@ class _ContactSectionState extends State<ContactSection> {
                           DelayedFadeScale(
                             delay: const Duration(milliseconds: 800),
                             child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: primaryColor,
-                                foregroundColor: whiteColor,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 40, vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
-                                elevation: 2,
-                              ),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   final currentContext = context;
@@ -324,7 +304,6 @@ class _ContactSectionState extends State<ContactSection> {
                     ),
                   ),
                 ),
-              ),
             ),
             const SizedBox(height: 32),
             if (_storedMessages.isNotEmpty)
@@ -357,16 +336,9 @@ class _ContactSectionState extends State<ContactSection> {
                         return Container(
                           margin: const EdgeInsets.only(bottom: 20),
                           decoration: BoxDecoration(
-                            color: whiteColor,
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withAlpha(38),
-                                blurRadius: 20,
-                                spreadRadius: 1,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
+                            border: Border.all(color: Theme.of(context).dividerColor),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -405,7 +377,7 @@ class _ContactSectionState extends State<ContactSection> {
                                                     'anonymous@email.com',
                                                 style: GoogleFonts.openSans(
                                                   fontSize: 13,
-                                                  color: Colors.grey[600],
+                                                  color: secondaryTextColor,
                                                 ),
                                               ),
                                             ],
@@ -415,14 +387,14 @@ class _ContactSectionState extends State<ContactSection> {
                                           timeAgo,
                                           style: GoogleFonts.openSans(
                                             fontSize: 12,
-                                            color: Colors.grey[500],
+                                            color: hintTextColor,
                                             fontStyle: FontStyle.italic,
                                           ),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(height: 16),
-                                    Divider(height: 1, color: Colors.grey[200]),
+                                    Divider(height: 1, color: Theme.of(context).dividerColor),
                                     const SizedBox(height: 16),
                                   ],
                                 ),
@@ -435,7 +407,7 @@ class _ContactSectionState extends State<ContactSection> {
                                   style: GoogleFonts.openSans(
                                     fontSize: 15,
                                     height: 1.6,
-                                    color: Colors.grey[800],
+                                    color: textColor,
                                   ),
                                 ),
                               ),
@@ -443,7 +415,9 @@ class _ContactSectionState extends State<ContactSection> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 12),
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[50],
+                                  color: Theme.of(context).brightness == Brightness.dark 
+                                    ? Colors.white.withValues(alpha: 0.05) 
+                                    : Colors.grey[50],
                                   borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(16),
                                     bottomRight: Radius.circular(16),
@@ -457,7 +431,7 @@ class _ContactSectionState extends State<ContactSection> {
                                       MessageHelper.formatTimestamp(timestamp),
                                       style: GoogleFonts.openSans(
                                         fontSize: 12,
-                                        color: Colors.grey[600],
+                                        color: hintTextColor,
                                       ),
                                     ),
                                     TextButton(
@@ -493,18 +467,18 @@ class _ContactSectionState extends State<ContactSection> {
                         children: [
                           Expanded(
                               child: Divider(
-                                  color: Colors.grey[300], thickness: 1)),
+                                  color: Theme.of(context).dividerColor, thickness: 1)),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
                               '${_storedMessages.length} messages total',
                               style: GoogleFonts.openSans(
-                                  fontSize: 12, color: Colors.grey[500]),
+                                  fontSize: 12, color: hintTextColor),
                             ),
                           ),
                           Expanded(
                               child: Divider(
-                                  color: Colors.grey[300], thickness: 1)),
+                                  color: Theme.of(context).dividerColor, thickness: 1)),
                         ],
                       ),
                     ),
@@ -527,15 +501,8 @@ class _ContactSectionState extends State<ContactSection> {
   }) {
     return DelayedFadeScale(
       delay: Duration(milliseconds: 500 + (index * 150)),
-      child: Card(
-        elevation: 1,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: Colors.grey[200]!, width: 1),
-        ),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
+      child: HoverInteractiveContainer(
+        onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
@@ -565,7 +532,7 @@ class _ContactSectionState extends State<ContactSection> {
                       Text(
                         subtitle,
                         style: GoogleFonts.openSans(
-                            fontSize: 14, color: Colors.grey[600]),
+                            fontSize: 14, color: secondaryTextColor),
                       ),
                       const SizedBox(height: 8),
                       SelectableText(
@@ -573,18 +540,17 @@ class _ContactSectionState extends State<ContactSection> {
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: blackColor,
+                          color: textColor,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const Icon(Icons.chevron_right_rounded,
+                Icon(Icons.chevron_right_rounded,
                     color: primaryColor, size: 28),
               ],
             ),
           ),
-        ),
       ),
     );
   }
@@ -607,15 +573,15 @@ class _ContactSectionState extends State<ContactSection> {
         fillColor: Theme.of(context).cardColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey[400]!),
+          borderSide: BorderSide(color: Theme.of(context).dividerColor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: primaryColor, width: 2),
+          borderSide: BorderSide(color: primaryColor, width: 2),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey[400]!),
+          borderSide: BorderSide(color: Theme.of(context).dividerColor),
         ),
       ),
       style: GoogleFonts.openSans(),
