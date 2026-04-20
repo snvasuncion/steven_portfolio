@@ -31,7 +31,8 @@ class HomePage extends StatelessWidget {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).primaryColor.withValues(alpha: 0.4),
+                      color:
+                          Theme.of(context).primaryColor.withValues(alpha: 0.4),
                       blurRadius: 15,
                       spreadRadius: 2,
                     ),
@@ -41,7 +42,8 @@ class HomePage extends StatelessWidget {
                   onPressed: () => context.read<ThemeCubit>().toggleTheme(),
                   backgroundColor: Theme.of(context).primaryColor,
                   elevation: 0,
-                  tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+                  tooltip:
+                      isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
                   child: Icon(
                     isDark ? Icons.light_mode : Icons.dark_mode,
                     color: Colors.white,
@@ -55,7 +57,8 @@ class HomePage extends StatelessWidget {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (isDesktop && state.selectedSection == NavigationEvent.about)
+                  if (isDesktop &&
+                      state.selectedSection == NavigationEvent.about)
                     const SizedBox(
                       width: 350,
                       child: Padding(
@@ -87,7 +90,8 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   Container(
                                     key: ValueKey(state.selectedSection),
-                                    child: _buildContentSection(state.selectedSection),
+                                    child: _buildContentSection(
+                                        state.selectedSection),
                                   ),
                                 ],
                               ),
@@ -106,7 +110,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context, NavigationState state, bool isDesktop) {
+  PreferredSizeWidget _buildAppBar(
+      BuildContext context, NavigationState state, bool isDesktop) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final Color navColor = isDark ? const Color(0xFFF2E6FF) : Colors.white;
 
@@ -118,7 +123,7 @@ class HomePage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
-            colors: isDark 
+            colors: isDark
                 ? [
                     Theme.of(context).primaryColor,
                     Theme.of(context).primaryColor.withValues(alpha: 0.8),
@@ -126,8 +131,8 @@ class HomePage extends StatelessWidget {
                   ]
                 : [
                     Theme.of(context).primaryColor,
-                    const Color(0xFF7E57C2), // Deep Purple 400
-                    const Color(0xFF9575CD), // Deep Purple 300
+                    const Color(0xFF7E57C2),
+                    const Color(0xFF9575CD),
                   ],
           ),
         ),
@@ -248,7 +253,8 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FutureBuilder(
-                        future: Future.delayed(const Duration(milliseconds: 350)),
+                        future:
+                            Future.delayed(const Duration(milliseconds: 350)),
                         builder: (context, snapshot) {
                           final staticImage = Image.asset(
                             'assets/images/SNVWorks_Logo_wText.png',
@@ -257,14 +263,16 @@ class HomePage extends StatelessWidget {
                             colorBlendMode: BlendMode.srcIn,
                           );
 
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return staticImage; // Show static logo while opening
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return staticImage;
                           }
 
                           return Shimmer.fromColors(
                             baseColor: isDark ? navColor : Colors.white,
                             highlightColor: Colors.deepPurpleAccent[100]!,
-                            child: staticImage, // Start shimmer after fully opened
+                            child:
+                                staticImage,
                           );
                         },
                       ),
@@ -272,7 +280,9 @@ class HomePage extends StatelessWidget {
                       Text(
                         'PORTFOLIO MENU',
                         style: GoogleFonts.poppins(
-                          color: isDark ? navColor.withValues(alpha: 0.6) : Colors.white70,
+                          color: isDark
+                              ? navColor.withValues(alpha: 0.6)
+                              : Colors.white70,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 2,
@@ -292,8 +302,10 @@ class HomePage extends StatelessWidget {
                       icon: Icons.person_outline,
                       label: 'Profile',
                       event: NavigationEvent.profile,
-                      selected: state.selectedSection == NavigationEvent.profile,
-                      disabled: state.selectedSection == NavigationEvent.profile,
+                      selected:
+                          state.selectedSection == NavigationEvent.profile,
+                      disabled:
+                          state.selectedSection == NavigationEvent.profile,
                       navColor: navColor,
                     ),
                     _buildDrawerItem(
@@ -310,8 +322,10 @@ class HomePage extends StatelessWidget {
                       icon: Icons.grid_view_rounded,
                       label: 'Projects',
                       event: NavigationEvent.projects,
-                      selected: state.selectedSection == NavigationEvent.projects,
-                      disabled: state.selectedSection == NavigationEvent.projects,
+                      selected:
+                          state.selectedSection == NavigationEvent.projects,
+                      disabled:
+                          state.selectedSection == NavigationEvent.projects,
                       navColor: navColor,
                     ),
                     _buildDrawerItem(
@@ -319,8 +333,10 @@ class HomePage extends StatelessWidget {
                       icon: Icons.alternate_email_rounded,
                       label: 'Contact',
                       event: NavigationEvent.contact,
-                      selected: state.selectedSection == NavigationEvent.contact,
-                      disabled: state.selectedSection == NavigationEvent.contact,
+                      selected:
+                          state.selectedSection == NavigationEvent.contact,
+                      disabled:
+                          state.selectedSection == NavigationEvent.contact,
                       navColor: navColor,
                     ),
                   ],
@@ -361,30 +377,40 @@ class HomePage extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: selected 
-              ? Theme.of(context).primaryColor.withValues(alpha: isDark ? 0.15 : 0.1)
+          color: selected
+              ? Theme.of(context)
+                  .primaryColor
+                  .withValues(alpha: isDark ? 0.15 : 0.1)
               : Colors.transparent,
         ),
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           leading: Icon(
             icon,
-            color: selected ? (isDark ? navColor : Theme.of(context).primaryColor) : (isDark ? Colors.white54 : Colors.grey[600]),
+            color: selected
+                ? (isDark ? navColor : Theme.of(context).primaryColor)
+                : (isDark ? Colors.white54 : Colors.grey[600]),
           ),
           title: Text(
             label,
             style: GoogleFonts.poppins(
-              color: selected ? (isDark ? navColor : Theme.of(context).primaryColor) : (isDark ? Colors.white70 : Colors.black87),
+              color: selected
+                  ? (isDark ? navColor : Theme.of(context).primaryColor)
+                  : (isDark ? Colors.white70 : Colors.black87),
               fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
               fontSize: 16,
             ),
           ),
-          trailing: selected 
-              ? Icon(Icons.arrow_forward_ios_rounded, size: 14, color: isDark ? navColor : Theme.of(context).primaryColor)
+          trailing: selected
+              ? Icon(Icons.arrow_forward_ios_rounded,
+                  size: 14,
+                  color: isDark ? navColor : Theme.of(context).primaryColor)
               : null,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          onTap: disabled 
-              ? null 
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          onTap: disabled
+              ? null
               : () {
                   context.read<NavigationBloc>().add(event);
                   Navigator.pop(context);
@@ -435,9 +461,11 @@ class _AnimatedAppBarButtonState extends State<AnimatedAppBarButton> {
     final Color navColor = isDark ? const Color(0xFFF2E6FF) : Colors.white;
 
     return GestureDetector(
-      onTapDown: widget.isDisabled ? null : (_) => setState(() => _scale = 0.95),
+      onTapDown:
+          widget.isDisabled ? null : (_) => setState(() => _scale = 0.95),
       onTapUp: widget.isDisabled ? null : (_) => setState(() => _scale = 1.0),
-      onTapCancel: widget.isDisabled ? null : () => setState(() => _scale = 1.0),
+      onTapCancel:
+          widget.isDisabled ? null : () => setState(() => _scale = 1.0),
       child: TweenAnimationBuilder<double>(
         duration: const Duration(milliseconds: 100),
         tween: Tween(begin: 1.0, end: _scale),
@@ -451,24 +479,29 @@ class _AnimatedAppBarButtonState extends State<AnimatedAppBarButton> {
           duration: const Duration(milliseconds: 150),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Colors.transparent, // Removed the highlighted square
+            color: Colors.transparent,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextButton(
-                onPressed: widget.isDisabled 
-                    ? null 
+                onPressed: widget.isDisabled
+                    ? null
                     : () => context.read<NavigationBloc>().add(widget.event),
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
                 ),
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 150),
                   style: TextStyle(
-                    color: widget.isSelected ? navColor : navColor.withValues(alpha: 0.7),
-                    fontWeight: widget.isSelected ? FontWeight.bold : FontWeight.normal,
+                    color: widget.isSelected
+                        ? navColor
+                        : navColor.withValues(alpha: 0.7),
+                    fontWeight:
+                        widget.isSelected ? FontWeight.bold : FontWeight.normal,
                     letterSpacing: 0.5,
                   ),
                   child: Text(widget.label),
@@ -480,9 +513,8 @@ class _AnimatedAppBarButtonState extends State<AnimatedAppBarButton> {
                   width: 20,
                   margin: const EdgeInsets.only(bottom: 4),
                   decoration: BoxDecoration(
-                    color: isDark 
-                        ? Theme.of(context).primaryColor 
-                        : Colors.white,
+                    color:
+                        isDark ? Theme.of(context).primaryColor : Colors.white,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),

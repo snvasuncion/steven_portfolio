@@ -24,7 +24,7 @@ class Project {
     if (json['technologies'] != null && json['technologies'].isNotEmpty) {
       technologies = List<String>.from(jsonDecode(json['technologies']));
     }
-    
+
     return Project(
       id: json['id']?.toString() ?? '',
       title: json['title'] ?? 'Untitled Project',

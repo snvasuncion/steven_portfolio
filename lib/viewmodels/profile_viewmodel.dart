@@ -88,7 +88,6 @@ class ProfileViewModel {
   ];
 
   Future<void> fetchProfileData() async {
-    // Data is now static for instant load
   }
 
   String get safeName => name ?? "Loading...";

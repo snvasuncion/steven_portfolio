@@ -3,7 +3,6 @@ import "../models/project.dart";
 import '../data/data_provider.dart';
 
 class ProjectViewModel {
-
   List<Project>? _projects;
   bool isLoading = false;
   String? error;
@@ -15,8 +14,7 @@ class ProjectViewModel {
       isLoading = false;
       return;
     }
-    
-    // Default data if no cache
+
     _projects = _parseProjectsFromData([
       {
         'id': '1',
@@ -31,7 +29,6 @@ class ProjectViewModel {
     isLoading = false;
   }
 
-  // ADD THIS HELPER METHOD:
   List<Project> _parseProjectsFromData(List<dynamic> projectsData) {
     return projectsData.map((projectData) {
       List<String> technologies = [];

@@ -22,9 +22,12 @@ class _ContactSectionState extends State<ContactSection> {
   final viewModel = ContactViewModel();
 
   Color get primaryColor => Theme.of(context).primaryColor;
-  Color get textColor => Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black;
-  Color get secondaryTextColor => Theme.of(context).textTheme.bodyMedium?.color ?? Colors.grey[700]!;
-  Color get hintTextColor => Theme.of(context).textTheme.bodySmall?.color ?? Colors.grey[500]!;
+  Color get textColor =>
+      Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black;
+  Color get secondaryTextColor =>
+      Theme.of(context).textTheme.bodyMedium?.color ?? Colors.grey[700]!;
+  Color get hintTextColor =>
+      Theme.of(context).textTheme.bodySmall?.color ?? Colors.grey[500]!;
 
   List<Map<String, dynamic>> _storedMessages = [];
 
@@ -73,8 +76,7 @@ class _ContactSectionState extends State<ContactSection> {
               const SizedBox(height: 16),
               Text(
                 MessageHelper.formatTimestamp(timestamp),
-                style:
-                    GoogleFonts.openSans(fontSize: 13, color: hintTextColor),
+                style: GoogleFonts.openSans(fontSize: 13, color: hintTextColor),
               ),
               const SizedBox(height: 24),
               Text(
@@ -140,170 +142,169 @@ class _ContactSectionState extends State<ContactSection> {
             DelayedFadeScale(
               delay: const Duration(milliseconds: 300),
               child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      _buildContactCard(
-                        title: 'Email',
-                        subtitle: 'Send me a direct message',
-                        details: viewModel.getEmail(),
-                        icon: Icon(Icons.email_outlined,
-                            color: primaryColor, size: 28),
-                        onTap: () =>
-                            _launchUrl('mailto:${viewModel.getEmail()}'),
-                        index: 0,
-                      ),
-                      const SizedBox(height: 16),
-                      _buildContactCard(
-                        title: 'LinkedIn',
-                        subtitle: 'Connect with me professionally',
-                        details: viewModel.getLinkedinUrl(),
-                        icon: FaIcon(FontAwesomeIcons.linkedin,
-                            color: primaryColor, size: 28),
-                        onTap: () => _launchUrl(viewModel.getLinkedinUrl()),
-                        index: 1,
-                      ),
-                      const SizedBox(height: 16),
-                      _buildContactCard(
-                        title: 'GitHub',
-                        subtitle: 'Check out my projects',
-                        details: viewModel.getGithubUrl(),
-                        icon: Icon(Icons.code_outlined,
-                            color: primaryColor, size: 28),
-                        onTap: () => _launchUrl(viewModel.getGithubUrl()),
-                        index: 2,
-                      ),
-                    ],
-                  ),
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    _buildContactCard(
+                      title: 'Email',
+                      subtitle: 'Send me a direct message',
+                      details: viewModel.getEmail(),
+                      icon: Icon(Icons.email_outlined,
+                          color: primaryColor, size: 28),
+                      onTap: () => _launchUrl('mailto:${viewModel.getEmail()}'),
+                      index: 0,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildContactCard(
+                      title: 'LinkedIn',
+                      subtitle: 'Connect with me professionally',
+                      details: viewModel.getLinkedinUrl(),
+                      icon: FaIcon(FontAwesomeIcons.linkedin,
+                          color: primaryColor, size: 28),
+                      onTap: () => _launchUrl(viewModel.getLinkedinUrl()),
+                      index: 1,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildContactCard(
+                      title: 'GitHub',
+                      subtitle: 'Check out my projects',
+                      details: viewModel.getGithubUrl(),
+                      icon: Icon(Icons.code_outlined,
+                          color: primaryColor, size: 28),
+                      onTap: () => _launchUrl(viewModel.getGithubUrl()),
+                      index: 2,
+                    ),
+                  ],
                 ),
+              ),
             ),
             const SizedBox(height: 32),
             DelayedFadeScale(
               delay: const Duration(milliseconds: 400),
               child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Send me a message',
-                            style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: primaryColor),
+                padding: const EdgeInsets.all(24),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Send me a message',
+                          style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: primaryColor),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'New Opportunities, Commissions, Connections? Feel free to reach out!',
+                          style:
+                              GoogleFonts.openSans(color: secondaryTextColor),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 24),
+                        DelayedFadeScale(
+                          delay: const Duration(milliseconds: 500),
+                          child: _buildTextField(
+                            controller: _nameController,
+                            label: 'Your Name',
+                            icon: Icons.person_outline,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your name';
+                              }
+                              return null;
+                            },
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'New Opportunities, Commissions, Connections? Feel free to reach out!',
-                            style:
-                                GoogleFonts.openSans(color: secondaryTextColor),
-                            textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20),
+                        DelayedFadeScale(
+                          delay: const Duration(milliseconds: 600),
+                          child: _buildTextField(
+                            controller: _emailController,
+                            label: 'Your Email',
+                            icon: Icons.email_outlined,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email';
+                              }
+                              if (!value.contains('@')) {
+                                return 'Please enter a valid email';
+                              }
+                              return null;
+                            },
                           ),
-                          const SizedBox(height: 24),
-                          DelayedFadeScale(
-                            delay: const Duration(milliseconds: 500),
-                            child: _buildTextField(
-                              controller: _nameController,
-                              label: 'Your Name',
-                              icon: Icons.person_outline,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your name';
-                                }
-                                return null;
-                              },
-                            ),
+                        ),
+                        const SizedBox(height: 20),
+                        DelayedFadeScale(
+                          delay: const Duration(milliseconds: 700),
+                          child: _buildTextField(
+                            controller: _messageController,
+                            label: 'Your Message',
+                            maxLines: 5,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your message';
+                              }
+                              return null;
+                            },
                           ),
-                          const SizedBox(height: 20),
-                          DelayedFadeScale(
-                            delay: const Duration(milliseconds: 600),
-                            child: _buildTextField(
-                              controller: _emailController,
-                              label: 'Your Email',
-                              icon: Icons.email_outlined,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
-                                }
-                                if (!value.contains('@')) {
-                                  return 'Please enter a valid email';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          DelayedFadeScale(
-                            delay: const Duration(milliseconds: 700),
-                            child: _buildTextField(
-                              controller: _messageController,
-                              label: 'Your Message',
-                              maxLines: 5,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your message';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 32),
-                          DelayedFadeScale(
-                            delay: const Duration(milliseconds: 800),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  final currentContext = context;
-                                  try {
-                                    await viewModel.sendMessage(
-                                      name: _nameController.text,
-                                      email: _emailController.text,
-                                      message: _messageController.text,
+                        ),
+                        const SizedBox(height: 32),
+                        DelayedFadeScale(
+                          delay: const Duration(milliseconds: 800),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                final currentContext = context;
+                                try {
+                                  await viewModel.sendMessage(
+                                    name: _nameController.text,
+                                    email: _emailController.text,
+                                    message: _messageController.text,
+                                  );
+                                  if (currentContext.mounted) {
+                                    ScaffoldMessenger.of(currentContext)
+                                        .showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Message sent successfully!'),
+                                        backgroundColor: Colors.green,
+                                      ),
                                     );
-                                    if (currentContext.mounted) {
-                                      ScaffoldMessenger.of(currentContext)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                              'Message sent successfully!'),
-                                          backgroundColor: Colors.green,
-                                        ),
-                                      );
-                                      _formKey.currentState!.reset();
-                                      _nameController.clear();
-                                      _emailController.clear();
-                                      _messageController.clear();
-                                      _loadStoredMessages();
-                                    }
-                                  } catch (error) {
-                                    if (currentContext.mounted) {
-                                      ScaffoldMessenger.of(currentContext)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'Error sending message: $error'),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      );
-                                    }
+                                    _formKey.currentState!.reset();
+                                    _nameController.clear();
+                                    _emailController.clear();
+                                    _messageController.clear();
+                                    _loadStoredMessages();
+                                  }
+                                } catch (error) {
+                                  if (currentContext.mounted) {
+                                    ScaffoldMessenger.of(currentContext)
+                                        .showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Error sending message: $error'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
                                   }
                                 }
-                              },
-                              child: Text(
-                                'Send Message',
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
+                              }
+                            },
+                            child: Text(
+                              'Send Message',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
+              ),
             ),
             const SizedBox(height: 32),
             if (_storedMessages.isNotEmpty)
@@ -338,7 +339,8 @@ class _ContactSectionState extends State<ContactSection> {
                           decoration: BoxDecoration(
                             color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Theme.of(context).dividerColor),
+                            border: Border.all(
+                                color: Theme.of(context).dividerColor),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -394,7 +396,9 @@ class _ContactSectionState extends State<ContactSection> {
                                       ],
                                     ),
                                     const SizedBox(height: 16),
-                                    Divider(height: 1, color: Theme.of(context).dividerColor),
+                                    Divider(
+                                        height: 1,
+                                        color: Theme.of(context).dividerColor),
                                     const SizedBox(height: 16),
                                   ],
                                 ),
@@ -415,9 +419,10 @@ class _ContactSectionState extends State<ContactSection> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 12),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).brightness == Brightness.dark 
-                                    ? Colors.white.withValues(alpha: 0.05) 
-                                    : Colors.grey[50],
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white.withValues(alpha: 0.05)
+                                      : Colors.grey[50],
                                   borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(16),
                                     bottomRight: Radius.circular(16),
@@ -467,7 +472,8 @@ class _ContactSectionState extends State<ContactSection> {
                         children: [
                           Expanded(
                               child: Divider(
-                                  color: Theme.of(context).dividerColor, thickness: 1)),
+                                  color: Theme.of(context).dividerColor,
+                                  thickness: 1)),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
@@ -478,7 +484,8 @@ class _ContactSectionState extends State<ContactSection> {
                           ),
                           Expanded(
                               child: Divider(
-                                  color: Theme.of(context).dividerColor, thickness: 1)),
+                                  color: Theme.of(context).dividerColor,
+                                  thickness: 1)),
                         ],
                       ),
                     ),
@@ -503,54 +510,53 @@ class _ContactSectionState extends State<ContactSection> {
       delay: Duration(milliseconds: 500 + (index * 150)),
       child: HoverInteractiveContainer(
         onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Color.lerp(Colors.transparent, primaryColor, 0.1)!,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: icon,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Color.lerp(Colors.transparent, primaryColor, 0.1)!,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor,
-                        ),
+                child: icon,
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        subtitle,
-                        style: GoogleFonts.openSans(
-                            fontSize: 14, color: secondaryTextColor),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: GoogleFonts.openSans(
+                          fontSize: 14, color: secondaryTextColor),
+                    ),
+                    const SizedBox(height: 8),
+                    SelectableText(
+                      details,
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: textColor,
                       ),
-                      const SizedBox(height: 8),
-                      SelectableText(
-                        details,
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: textColor,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Icon(Icons.chevron_right_rounded,
-                    color: primaryColor, size: 28),
-              ],
-            ),
+              ),
+              Icon(Icons.chevron_right_rounded, color: primaryColor, size: 28),
+            ],
           ),
+        ),
       ),
     );
   }

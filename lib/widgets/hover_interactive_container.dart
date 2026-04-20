@@ -24,14 +24,16 @@ class _HoverInteractiveContainerState extends State<HoverInteractiveContainer> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final borderColor = _isHovered 
-      ? theme.primaryColor 
-      : (isDark ? Colors.transparent : Colors.grey[300]!);
-    
+    final borderColor = _isHovered
+        ? theme.primaryColor
+        : (isDark ? Colors.transparent : Colors.grey[300]!);
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      cursor: widget.onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      cursor: widget.onTap != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedContainer(
@@ -45,13 +47,14 @@ class _HoverInteractiveContainerState extends State<HoverInteractiveContainer> {
                 : theme.cardColor,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: borderColor, 
+              color: borderColor,
               width: _isHovered ? 2 : 1,
             ),
             boxShadow: _isHovered
                 ? [
                     BoxShadow(
-                      color: theme.primaryColor.withValues(alpha: isDark ? 0.4 : 0.2),
+                      color: theme.primaryColor
+                          .withValues(alpha: isDark ? 0.4 : 0.2),
                       blurRadius: 24,
                       spreadRadius: 2,
                       offset: const Offset(0, 10),
@@ -65,7 +68,8 @@ class _HoverInteractiveContainerState extends State<HoverInteractiveContainer> {
                   ]
                 : [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.08),
+                      color:
+                          Colors.black.withValues(alpha: isDark ? 0.4 : 0.08),
                       blurRadius: 15,
                       offset: const Offset(0, 6),
                     )

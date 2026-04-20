@@ -9,7 +9,6 @@ class Skill {
 }
 
 class AboutViewModel {
-  // Skills
   final List<Skill> skills = [
     Skill(name: 'Flutter', icon: Icons.flutter_dash, level: 'Expert'),
     Skill(name: 'Dart', icon: Icons.code, level: 'Expert'),
@@ -52,7 +51,6 @@ class AboutViewModel {
   String? error;
 
   Future<void> fetchAboutData() async {
-    // Data is now static for instant load
   }
 
   String get safeIntro => intro ?? "Loading...";

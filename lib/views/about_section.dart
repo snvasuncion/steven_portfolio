@@ -37,6 +37,7 @@ class _AboutSectionState extends State<AboutSection> {
       ),
     );
   }
+
   Widget _buildContent() {
     return SingleChildScrollView(
       child: Padding(
@@ -105,7 +106,9 @@ class _AboutSectionState extends State<AboutSection> {
           Wrap(
             spacing: 16,
             runSpacing: 16,
-            children: viewModel.skills.map((skill) => _buildSkillCard(skill)).toList(),
+            children: viewModel.skills
+                .map((skill) => _buildSkillCard(skill))
+                .toList(),
           ),
         ],
       ),
@@ -211,8 +214,11 @@ class _AboutSectionState extends State<AboutSection> {
             children: viewModel.safeHighlights
                 .map((h) => Chip(
                       label: Text(h, style: GoogleFonts.openSans(fontSize: 12)),
-                      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.05),
-                      side: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.1)),
+                      backgroundColor:
+                          Theme.of(context).primaryColor.withOpacity(0.05),
+                      side: BorderSide(
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.1)),
                     ))
                 .toList(),
           ),
@@ -229,14 +235,16 @@ class _AboutSectionState extends State<AboutSection> {
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0.03),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.05)),
+          border: Border.all(
+              color: Theme.of(context).primaryColor.withOpacity(0.05)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(Icons.lightbulb_outline, color: Theme.of(context).primaryColor),
+                Icon(Icons.lightbulb_outline,
+                    color: Theme.of(context).primaryColor),
                 const SizedBox(width: 12),
                 Text(
                   'Fun Fact',

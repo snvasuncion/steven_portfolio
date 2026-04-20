@@ -86,7 +86,9 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                       Text(
                         _viewModel.error!,
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.openSans(color: Theme.of(context).textTheme.bodySmall?.color),
+                        style: GoogleFonts.openSans(
+                            color:
+                                Theme.of(context).textTheme.bodySmall?.color),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
@@ -146,7 +148,10 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                 style: GoogleFonts.openSans(
                                   fontSize: 15,
                                   height: 1.6,
-                                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.color,
                                 ),
                               ),
                             ),
@@ -229,7 +234,8 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                                             style: GoogleFonts.poppins(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
-                                              color: Theme.of(context).primaryColor,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
                                             ),
                                           ),
                                         ],

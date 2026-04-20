@@ -28,7 +28,6 @@ class _ProfileSectionState extends State<ProfileSection> {
 
   @override
   Widget build(BuildContext context) {
-
     return DelayedFadeScale(
       delay: const Duration(milliseconds: 200),
       child: Container(
@@ -54,11 +53,13 @@ class _ProfileSectionState extends State<ProfileSection> {
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color.lerp(
-                        Colors.transparent, Theme.of(context).primaryColor, 0.2)!,
+                    color: Color.lerp(Colors.transparent,
+                        Theme.of(context).primaryColor, 0.2)!,
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                        color: Theme.of(context)
+                            .primaryColor
+                            .withValues(alpha: 0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -132,7 +133,10 @@ class _ProfileSectionState extends State<ProfileSection> {
                           "${exp['company'] ?? 'Unknown Company'} • ${exp['period'] ?? ''}",
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Theme.of(context).textTheme.bodySmall?.color,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.color,
                                   ),
                         ),
                         const SizedBox(height: 8),
@@ -159,7 +163,8 @@ class _ProfileSectionState extends State<ProfileSection> {
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Text(
                     'No experience data available',
-                    style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodySmall?.color),
                   ),
                 ),
               },
@@ -214,7 +219,8 @@ class _ProfileSectionState extends State<ProfileSection> {
               } else ...{
                 Text(
                   'No skills data available',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodySmall?.color),
                 ),
               },
               const SizedBox(height: 30),
@@ -251,7 +257,10 @@ class _ProfileSectionState extends State<ProfileSection> {
                           "${edu['institution'] ?? ''} • ${edu['year'] ?? ''}",
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Theme.of(context).textTheme.bodySmall?.color,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.color,
                                   ),
                         ),
                       ],
@@ -261,7 +270,8 @@ class _ProfileSectionState extends State<ProfileSection> {
               } else ...{
                 Text(
                   'No education data available',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodySmall?.color),
                 ),
               },
             ],

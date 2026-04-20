@@ -18,22 +18,55 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    final lightTextTheme = GoogleFonts.openSansTextTheme(ThemeData.light().textTheme).copyWith(
-      headlineMedium: GoogleFonts.poppins(textStyle: ThemeData.light().textTheme.headlineMedium),
-      headlineSmall: GoogleFonts.poppins(textStyle: ThemeData.light().textTheme.headlineSmall),
-      titleLarge: GoogleFonts.poppins(textStyle: ThemeData.light().textTheme.titleLarge),
-      titleMedium: GoogleFonts.poppins(textStyle: ThemeData.light().textTheme.titleMedium),
+    final lightTextTheme =
+        GoogleFonts.openSansTextTheme(ThemeData.light().textTheme).copyWith(
+      headlineMedium: GoogleFonts.poppins(
+          textStyle: ThemeData.light().textTheme.headlineMedium),
+      headlineSmall: GoogleFonts.poppins(
+          textStyle: ThemeData.light().textTheme.headlineSmall),
+      titleLarge: GoogleFonts.poppins(
+          textStyle: ThemeData.light().textTheme.titleLarge),
+      titleMedium: GoogleFonts.poppins(
+          textStyle: ThemeData.light().textTheme.titleMedium),
     );
 
-    final darkTextTheme = GoogleFonts.openSansTextTheme(ThemeData.dark().textTheme).copyWith(
-      headlineMedium: GoogleFonts.poppins(textStyle: ThemeData.dark().textTheme.headlineMedium?.copyWith(color: Colors.white)),
-      headlineSmall: GoogleFonts.poppins(textStyle: ThemeData.dark().textTheme.headlineSmall?.copyWith(color: Colors.white)),
-      titleLarge: GoogleFonts.poppins(textStyle: ThemeData.dark().textTheme.titleLarge?.copyWith(color: Colors.white)),
-      titleMedium: GoogleFonts.poppins(textStyle: ThemeData.dark().textTheme.titleMedium?.copyWith(color: Colors.white)),
-      bodyLarge: GoogleFonts.openSans(textStyle: ThemeData.dark().textTheme.bodyLarge?.copyWith(color: Colors.white)),
-      bodyMedium: GoogleFonts.openSans(textStyle: ThemeData.dark().textTheme.bodyMedium?.copyWith(color: Colors.white70)),
-      bodySmall: GoogleFonts.openSans(textStyle: ThemeData.dark().textTheme.bodySmall?.copyWith(color: Colors.white54)),
+    final darkTextTheme =
+        GoogleFonts.openSansTextTheme(ThemeData.dark().textTheme).copyWith(
+      headlineMedium: GoogleFonts.poppins(
+          textStyle: ThemeData.dark()
+              .textTheme
+              .headlineMedium
+              ?.copyWith(color: Colors.white)),
+      headlineSmall: GoogleFonts.poppins(
+          textStyle: ThemeData.dark()
+              .textTheme
+              .headlineSmall
+              ?.copyWith(color: Colors.white)),
+      titleLarge: GoogleFonts.poppins(
+          textStyle: ThemeData.dark()
+              .textTheme
+              .titleLarge
+              ?.copyWith(color: Colors.white)),
+      titleMedium: GoogleFonts.poppins(
+          textStyle: ThemeData.dark()
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: Colors.white)),
+      bodyLarge: GoogleFonts.openSans(
+          textStyle: ThemeData.dark()
+              .textTheme
+              .bodyLarge
+              ?.copyWith(color: Colors.white)),
+      bodyMedium: GoogleFonts.openSans(
+          textStyle: ThemeData.dark()
+              .textTheme
+              .bodyMedium
+              ?.copyWith(color: Colors.white70)),
+      bodySmall: GoogleFonts.openSans(
+          textStyle: ThemeData.dark()
+              .textTheme
+              .bodySmall
+              ?.copyWith(color: Colors.white54)),
     );
 
     final lightTheme = ThemeData(
@@ -53,7 +86,8 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.deepPurple,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 2,
         ),
       ),
@@ -62,7 +96,8 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.deepPurple,
           side: const BorderSide(color: Colors.deepPurple, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
       ),
     );
@@ -88,7 +123,8 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.deepPurple[200]!,
           foregroundColor: Colors.black87,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           elevation: 0,
         ),
       ),
@@ -97,7 +133,8 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.deepPurple[200]!,
           side: BorderSide(color: Colors.deepPurple[200]!, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
       ),
     );
@@ -146,8 +183,8 @@ class _SplashFadeInWrapperState extends State<SplashFadeInWrapper>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Precache logos to eliminate any slide-in lag when first accessed
-    precacheImage(const AssetImage('assets/images/SNVWorks_Logo_wText.png'), context);
+    precacheImage(
+        const AssetImage('assets/images/SNVWorks_Logo_wText.png'), context);
     precacheImage(const AssetImage('assets/images/SNVWorks_Logo.png'), context);
   }
 
@@ -209,14 +246,12 @@ class _SplashFadeInWrapperState extends State<SplashFadeInWrapper>
   }
 
   Future<void> _initApp() async {
-    // Start animation and data fetching in parallel
     final animationFuture = _controller.forward();
     final dataFuture = Future.wait([
       DataProvider().getProfileData(),
       DataProvider().getProjectsData(),
     ]);
 
-    // Await both separately to avoid type mismatch (TickerFuture vs Future<List>)
     await animationFuture;
     await dataFuture;
 
@@ -238,15 +273,12 @@ class _SplashFadeInWrapperState extends State<SplashFadeInWrapper>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Lazy-load the main app child only when the transition is about to begin
-        // or after initial data is ready.
         if (_controller.value > 0.1 || _isInitialized)
           FadeTransition(
             opacity: _appOpacity,
             child: widget.child,
           ),
 
-        // Splash overlay (shown first, then fades out)
         if (_showSplash)
           Positioned.fill(
             child: FadeTransition(
@@ -265,7 +297,7 @@ class _SplashFadeInWrapperState extends State<SplashFadeInWrapper>
                               baseColor: Theme.of(context).primaryColor,
                               highlightColor: Colors.white,
                               period: const Duration(milliseconds: 1500),
-                              loop: 1, // Only shimmers once!
+                              loop: 1,
                               child: Image.asset(
                                 'assets/images/SNVWorks_Logo_wText.png',
                                 height: 180,
