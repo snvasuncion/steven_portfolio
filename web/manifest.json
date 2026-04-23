@@ -1,11 +1,11 @@
 {
-    "name": "steven_asuncion_portfolio",
-    "short_name": "steven_asuncion_portfolio",
+    "name": "Steven Nikko Villanueva Asuncion",
+    "short_name": "SNVWorks",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0F172A",
+    "theme_color": "#7E57C2",
+    "description": "Software Developer Portfolio of Steven Nikko",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
