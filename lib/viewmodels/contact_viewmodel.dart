@@ -17,7 +17,6 @@ class ContactViewModel {
 
   Future<void> sendMessage({
     required String name,
-    required String email,
     required String message,
   }) async {
     try {
@@ -37,7 +36,6 @@ class ContactViewModel {
 
       Map<String, String> newMessage = {
         'name': name,
-        'email': email,
         'message': message,
         'timestamp': DateTime.now().toIso8601String(),
         'id': DateTime.now().millisecondsSinceEpoch.toString(),

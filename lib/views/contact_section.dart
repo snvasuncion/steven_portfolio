@@ -17,7 +17,6 @@ class ContactSection extends StatefulWidget {
 class _ContactSectionState extends State<ContactSection> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
   final _messageController = TextEditingController();
   final viewModel = ContactViewModel();
 
@@ -40,11 +39,20 @@ class _ContactSectionState extends State<ContactSection> {
   Future<void> _loadStoredMessages() async {
     try {
       final messages = await viewModel.getMessages();
-      setState(() {
-        _storedMessages = messages;
-      });
+      if (mounted) {
+        setState(() {
+          _storedMessages = messages;
+        });
+      }
     } catch (e) {
-      // prepping for future error handling
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to load messages: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -114,7 +122,6 @@ class _ContactSectionState extends State<ContactSection> {
   @override
   void dispose() {
     _nameController.dispose();
-    _emailController.dispose();
     _messageController.dispose();
     super.dispose();
   }
@@ -225,24 +232,6 @@ class _ContactSectionState extends State<ContactSection> {
                         DelayedFadeScale(
                           delay: const Duration(milliseconds: 600),
                           child: _buildTextField(
-                            controller: _emailController,
-                            label: 'Your Email',
-                            icon: Icons.email_outlined,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              if (!value.contains('@')) {
-                                return 'Please enter a valid email';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        DelayedFadeScale(
-                          delay: const Duration(milliseconds: 700),
-                          child: _buildTextField(
                             controller: _messageController,
                             label: 'Your Message',
                             maxLines: 5,
@@ -256,7 +245,7 @@ class _ContactSectionState extends State<ContactSection> {
                         ),
                         const SizedBox(height: 32),
                         DelayedFadeScale(
-                          delay: const Duration(milliseconds: 800),
+                          delay: const Duration(milliseconds: 700),
                           child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
@@ -264,7 +253,6 @@ class _ContactSectionState extends State<ContactSection> {
                                 try {
                                   await viewModel.sendMessage(
                                     name: _nameController.text,
-                                    email: _emailController.text,
                                     message: _messageController.text,
                                   );
                                   if (currentContext.mounted) {
@@ -278,7 +266,6 @@ class _ContactSectionState extends State<ContactSection> {
                                     );
                                     _formKey.currentState!.reset();
                                     _nameController.clear();
-                                    _emailController.clear();
                                     _messageController.clear();
                                     _loadStoredMessages();
                                   }
@@ -374,15 +361,6 @@ class _ContactSectionState extends State<ContactSection> {
                                                   fontWeight: FontWeight.w600,
                                                   color: primaryColor,
                                                   letterSpacing: 0.5,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 4),
-                                              Text(
-                                                message['email']?.toString() ??
-                                                    'anonymous@email.com',
-                                                style: GoogleFonts.openSans(
-                                                  fontSize: 13,
-                                                  color: secondaryTextColor,
                                                 ),
                                               ),
                                             ],
