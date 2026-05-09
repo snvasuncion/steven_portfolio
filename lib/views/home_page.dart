@@ -11,8 +11,24 @@ import 'package:steven_asuncion_portfolio/views/project_section.dart';
 import 'profile_section.dart';
 import '../blocs/theme_cubit.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  static const _drawerLogoAsset = 'assets/images/SNVWorks_Logo_wText_512.svg';
+  bool _imageCached = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // SVGs load differently, precaching the asset string isn't as strictly necessary,
+    // but the flutter_svg library handles it efficiently when built.
+    _imageCached = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +71,16 @@ class HomePage extends StatelessWidget {
           ),
           body: LayoutBuilder(
             builder: (context, constraints) {
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              return Stack(
+                children: [
+                  // Pre-warms the SVG decoder on web so the drawer doesn't stutter on first open
+                  Offstage(
+                    child: SvgPicture.asset(
+                      'assets/images/SNVWorks_Logo_wText_512.svg',
+                    ),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (isDesktop &&
                       state.selectedSection == NavigationEvent.about)
@@ -103,7 +127,9 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ],
-              );
+              ),
+            ],
+          );
             },
           ),
         );
@@ -332,25 +358,10 @@ class _AnimatedAppBarButtonState extends State<AnimatedAppBarButton> {
   }
 }
 
-class PortfolioDrawer extends StatefulWidget {
+class PortfolioDrawer extends StatelessWidget {
   const PortfolioDrawer({super.key});
 
-  @override
-  State<PortfolioDrawer> createState() => _PortfolioDrawerState();
-}
-
-class _PortfolioDrawerState extends State<PortfolioDrawer> {
-  static const _logoAsset = 'assets/images/SNVWorks_Logo_wText.png';
-  bool _imageCached = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_imageCached) {
-      precacheImage(AssetImage(_logoAsset), context);
-      _imageCached = true;
-    }
-  }
+  static const _logoAsset = 'assets/images/SNVWorks_Logo_wText_512.svg';
 
   @override
   Widget build(BuildContext context) {
@@ -385,11 +396,13 @@ class _PortfolioDrawerState extends State<PortfolioDrawer> {
                       Shimmer.fromColors(
                         baseColor: isDark ? navColor : Colors.white,
                         highlightColor: Colors.deepPurpleAccent[100]!,
-                        child: Image.asset(
+                        child: SvgPicture.asset(
                           _logoAsset,
                           height: 100,
-                          color: isDark ? navColor : Colors.white,
-                          colorBlendMode: BlendMode.srcIn,
+                          colorFilter: ColorFilter.mode(
+                            isDark ? navColor : Colors.white,
+                            BlendMode.srcIn,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 12),
