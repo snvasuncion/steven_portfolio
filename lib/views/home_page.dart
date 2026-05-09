@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:steven_asuncion_portfolio/blocs/navigation_bloc.dart';
 import 'package:steven_asuncion_portfolio/views/about_section.dart';
+import 'package:steven_asuncion_portfolio/views/admin_panel.dart';
 import 'package:steven_asuncion_portfolio/views/contact_section.dart';
 import 'package:steven_asuncion_portfolio/views/project_section.dart';
 import 'profile_section.dart';
@@ -21,7 +22,7 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         return Scaffold(
-          drawer: isDesktop ? null : _buildDrawer(context),
+          drawer: isDesktop ? null : const PortfolioDrawer(),
           appBar: _buildAppBar(context, state, isDesktop),
           floatingActionButton: BlocBuilder<ThemeCubit, ThemeMode>(
             builder: (context, themeMode) {
@@ -142,6 +143,7 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 context.read<NavigationBloc>().add(NavigationEvent.about);
               },
+              onLongPress: () => showAdminAuthDialog(context),
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: Shimmer.fromColors(
@@ -163,6 +165,7 @@ class HomePage extends StatelessWidget {
             onTap: () {
               context.read<NavigationBloc>().add(NavigationEvent.about);
             },
+            onLongPress: () => showAdminAuthDialog(context),
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Padding(
@@ -220,202 +223,6 @@ class HomePage extends StatelessWidget {
       event: event,
       isSelected: isSelected,
       isDisabled: isDisabled,
-    );
-  }
-
-  Widget? _buildDrawer(BuildContext context) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-    final Color navColor = isDark ? const Color(0xFFF2E6FF) : Colors.white;
-    final Color drawerBg = isDark ? const Color(0xFF0F172A) : Colors.white;
-
-    return BlocBuilder<NavigationBloc, NavigationState>(
-      builder: (context, state) {
-        return Drawer(
-          backgroundColor: drawerBg,
-          child: Column(
-            children: [
-              Container(
-                height: 240,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Theme.of(context).primaryColor,
-                      Theme.of(context).primaryColor.withValues(alpha: 0.8),
-                      isDark ? const Color(0xFF0F172A) : Colors.white,
-                    ],
-                  ),
-                ),
-                child: SafeArea(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FutureBuilder(
-                        future:
-                            Future.delayed(const Duration(milliseconds: 350)),
-                        builder: (context, snapshot) {
-                          final staticImage = Image.asset(
-                            'assets/images/SNVWorks_Logo_wText.png',
-                            height: 100,
-                            color: isDark ? navColor : Colors.white,
-                            colorBlendMode: BlendMode.srcIn,
-                          );
-
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return staticImage;
-                          }
-
-                          return Shimmer.fromColors(
-                            baseColor: isDark ? navColor : Colors.white,
-                            highlightColor: Colors.deepPurpleAccent[100]!,
-                            child: staticImage,
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'PORTFOLIO MENU',
-                        style: GoogleFonts.poppins(
-                          color: isDark
-                              ? navColor.withValues(alpha: 0.6)
-                              : Colors.white70,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  children: [
-                    _buildDrawerItem(
-                      context,
-                      icon: Icons.person_outline,
-                      label: 'Profile',
-                      event: NavigationEvent.profile,
-                      selected:
-                          state.selectedSection == NavigationEvent.profile,
-                      disabled:
-                          state.selectedSection == NavigationEvent.profile,
-                      navColor: navColor,
-                    ),
-                    _buildDrawerItem(
-                      context,
-                      icon: Icons.info_outline,
-                      label: 'About',
-                      event: NavigationEvent.about,
-                      selected: state.selectedSection == NavigationEvent.about,
-                      disabled: state.selectedSection == NavigationEvent.about,
-                      navColor: navColor,
-                    ),
-                    _buildDrawerItem(
-                      context,
-                      icon: Icons.grid_view_rounded,
-                      label: 'Projects',
-                      event: NavigationEvent.projects,
-                      selected:
-                          state.selectedSection == NavigationEvent.projects,
-                      disabled:
-                          state.selectedSection == NavigationEvent.projects,
-                      navColor: navColor,
-                    ),
-                    _buildDrawerItem(
-                      context,
-                      icon: Icons.alternate_email_rounded,
-                      label: 'Contact',
-                      event: NavigationEvent.contact,
-                      selected:
-                          state.selectedSection == NavigationEvent.contact,
-                      disabled:
-                          state.selectedSection == NavigationEvent.contact,
-                      navColor: navColor,
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Text(
-                  '© 2026 SNVWorks',
-                  style: TextStyle(
-                    color: isDark ? Colors.white24 : Colors.grey[400],
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildDrawerItem(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required NavigationEvent event,
-    required bool selected,
-    required bool disabled,
-    required Color navColor,
-  }) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: selected
-              ? Theme.of(context)
-                  .primaryColor
-                  .withValues(alpha: isDark ? 0.15 : 0.1)
-              : Colors.transparent,
-        ),
-        child: ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          leading: Icon(
-            icon,
-            color: selected
-                ? (isDark ? navColor : Theme.of(context).primaryColor)
-                : (isDark ? Colors.white54 : Colors.grey[600]),
-          ),
-          title: Text(
-            label,
-            style: GoogleFonts.poppins(
-              color: selected
-                  ? (isDark ? navColor : Theme.of(context).primaryColor)
-                  : (isDark ? Colors.white70 : Colors.black87),
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-              fontSize: 16,
-            ),
-          ),
-          trailing: selected
-              ? Icon(Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: isDark ? navColor : Theme.of(context).primaryColor)
-              : null,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          onTap: disabled
-              ? null
-              : () {
-                  context.read<NavigationBloc>().add(event);
-                  Navigator.pop(context);
-                },
-        ),
-      ),
     );
   }
 
@@ -519,6 +326,207 @@ class _AnimatedAppBarButtonState extends State<AnimatedAppBarButton> {
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class PortfolioDrawer extends StatefulWidget {
+  const PortfolioDrawer({super.key});
+
+  @override
+  State<PortfolioDrawer> createState() => _PortfolioDrawerState();
+}
+
+class _PortfolioDrawerState extends State<PortfolioDrawer> {
+  static const _logoAsset = 'assets/images/SNVWorks_Logo_wText.png';
+  bool _imageCached = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_imageCached) {
+      precacheImage(AssetImage(_logoAsset), context);
+      _imageCached = true;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color navColor = isDark ? const Color(0xFFF2E6FF) : Colors.white;
+    final Color drawerBg = isDark ? const Color(0xFF0F172A) : Colors.white;
+
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return Drawer(
+          backgroundColor: drawerBg,
+          child: Column(
+            children: [
+              Container(
+                height: 240,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColor.withValues(alpha: 0.8),
+                      isDark ? const Color(0xFF0F172A) : Colors.white,
+                    ],
+                  ),
+                ),
+                child: SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: isDark ? navColor : Colors.white,
+                        highlightColor: Colors.deepPurpleAccent[100]!,
+                        child: Image.asset(
+                          _logoAsset,
+                          height: 100,
+                          color: isDark ? navColor : Colors.white,
+                          colorBlendMode: BlendMode.srcIn,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'PORTFOLIO MENU',
+                        style: GoogleFonts.poppins(
+                          color: isDark
+                              ? navColor.withValues(alpha: 0.6)
+                              : Colors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  children: [
+                    _buildDrawerItem(
+                      context,
+                      icon: Icons.person_outline,
+                      label: 'Profile',
+                      event: NavigationEvent.profile,
+                      selected: state.selectedSection == NavigationEvent.profile,
+                      disabled: state.selectedSection == NavigationEvent.profile,
+                      navColor: navColor,
+                    ),
+                    _buildDrawerItem(
+                      context,
+                      icon: Icons.info_outline,
+                      label: 'About',
+                      event: NavigationEvent.about,
+                      selected: state.selectedSection == NavigationEvent.about,
+                      disabled: state.selectedSection == NavigationEvent.about,
+                      navColor: navColor,
+                    ),
+                    _buildDrawerItem(
+                      context,
+                      icon: Icons.grid_view_rounded,
+                      label: 'Projects',
+                      event: NavigationEvent.projects,
+                      selected:
+                          state.selectedSection == NavigationEvent.projects,
+                      disabled:
+                          state.selectedSection == NavigationEvent.projects,
+                      navColor: navColor,
+                    ),
+                    _buildDrawerItem(
+                      context,
+                      icon: Icons.alternate_email_rounded,
+                      label: 'Contact',
+                      event: NavigationEvent.contact,
+                      selected: state.selectedSection == NavigationEvent.contact,
+                      disabled: state.selectedSection == NavigationEvent.contact,
+                      navColor: navColor,
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Text(
+                  '© 2026 SNVWorks',
+                  style: TextStyle(
+                    color: isDark ? Colors.white24 : Colors.grey[400],
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDrawerItem(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required NavigationEvent event,
+    required bool selected,
+    required bool disabled,
+    required Color navColor,
+  }) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: selected
+              ? Theme.of(context)
+                  .primaryColor
+                  .withValues(alpha: isDark ? 0.15 : 0.1)
+              : Colors.transparent,
+        ),
+        child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          leading: Icon(
+            icon,
+            color: selected
+                ? (isDark ? navColor : Theme.of(context).primaryColor)
+                : (isDark ? Colors.white54 : Colors.grey[600]),
+          ),
+          title: Text(
+            label,
+            style: GoogleFonts.poppins(
+              color: selected
+                  ? (isDark ? navColor : Theme.of(context).primaryColor)
+                  : (isDark ? Colors.white70 : Colors.black87),
+              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+          trailing: selected
+              ? Icon(Icons.arrow_forward_ios_rounded,
+                  size: 14,
+                  color: isDark ? navColor : Theme.of(context).primaryColor)
+              : null,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          onTap: disabled
+              ? null
+              : () {
+                  context.read<NavigationBloc>().add(event);
+                  Navigator.pop(context);
+                },
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utility/app_toast.dart';
 import '../utility/delayed_fade_scale.dart';
 import '../utility/message_helper.dart';
 import '../viewmodels/contact_viewmodel.dart';
@@ -251,18 +252,17 @@ class _ContactSectionState extends State<ContactSection> {
                               if (_formKey.currentState!.validate()) {
                                 final currentContext = context;
                                 try {
-                                  await viewModel.sendMessage(
+                                   await viewModel.sendMessage(
                                     name: _nameController.text,
                                     message: _messageController.text,
                                   );
                                   if (currentContext.mounted) {
-                                    ScaffoldMessenger.of(currentContext)
-                                        .showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('Message sent successfully!'),
-                                        backgroundColor: Colors.green,
-                                      ),
+                                    final senderName = _nameController.text.trim();
+                                    AppToast.show(
+                                      currentContext,
+                                      title: 'Message received! 🎉',
+                                      subtitle:
+                                          'Thanks $senderName — I\'ll get back to you soon.',
                                     );
                                     _formKey.currentState!.reset();
                                     _nameController.clear();
@@ -271,13 +271,11 @@ class _ContactSectionState extends State<ContactSection> {
                                   }
                                 } catch (error) {
                                   if (currentContext.mounted) {
-                                    ScaffoldMessenger.of(currentContext)
-                                        .showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                            'Error sending message: $error'),
-                                        backgroundColor: Colors.red,
-                                      ),
+                                    AppToast.show(
+                                      currentContext,
+                                      title: 'Couldn\'t send message',
+                                      subtitle: 'Please try again in a moment.',
+                                      type: ToastType.error,
                                     );
                                   }
                                 }
