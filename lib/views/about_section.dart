@@ -127,42 +127,45 @@ class _AboutSectionState extends State<AboutSection> {
   }
 
   Widget _buildSkillCard(Skill skill, [double width = 160]) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return SizedBox(
       width: width,
-      child: HoverInteractiveContainer(
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: Theme.of(context).primaryColor.withOpacity(0.05),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isDark 
+                ? Colors.white.withOpacity(0.08)
+                : Theme.of(context).primaryColor.withOpacity(0.12),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: isDark 
+                  ? Colors.black.withOpacity(0.4) 
+                  : Theme.of(context).primaryColor.withOpacity(0.08),
+              blurRadius: 15,
+              spreadRadius: 2,
+              offset: const Offset(0, 6),
             ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(skill.icon, size: 32, color: Theme.of(context).primaryColor),
-              const SizedBox(height: 12),
-              Text(
-                skill.name,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(skill.icon, size: 32, color: Theme.of(context).primaryColor),
+            const SizedBox(height: 12),
+            Text(
+              skill.name,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
               ),
-              const SizedBox(height: 4),
-              Text(
-                skill.level,
-                style: GoogleFonts.openSans(
-                  fontSize: 11,
-                  color: Theme.of(context).primaryColor.withOpacity(0.7),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
