@@ -15,6 +15,27 @@ class ContactViewModel {
   String getLinkedinUrl() => linkedinUrl;
   String getGithubUrl() => githubUrl;
 
+  /// Returns a short, display-friendly version of the email.
+  String getEmailDisplay() => email;
+
+  /// Returns a short, display-friendly version of the LinkedIn URL.
+  String getLinkedinDisplay() {
+    final uri = Uri.tryParse(linkedinUrl);
+    if (uri == null) return linkedinUrl;
+    final parts = uri.pathSegments.where((s) => s.isNotEmpty).toList();
+    // e.g. ['in', 'steven-nikko-villanueva-asuncion'] → 'linkedin.com/in/steven-nikko'
+    final name = parts.length >= 2 ? parts[1] : parts.first;
+    final shortName = name.split('-').take(3).join('-');
+    return 'linkedin.com/in/$shortName';
+  }
+
+  /// Returns a short, display-friendly version of the GitHub URL.
+  String getGithubDisplay() {
+    final uri = Uri.tryParse(githubUrl);
+    if (uri == null) return githubUrl;
+    return 'github.com${uri.path}';
+  }
+
   /// Parses a messages field from MockAPI, which may be:
   /// - A JSON-encoded string (normal): `"[{...}]"`
   /// - A raw List (after MockAPI reset): `["messages 1"]`

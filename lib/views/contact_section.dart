@@ -159,7 +159,7 @@ class _ContactSectionState extends State<ContactSection> {
                     _buildContactCard(
                       title: 'Email',
                       subtitle: 'Send me a direct message',
-                      details: viewModel.getEmail(),
+                      details: viewModel.getEmailDisplay(),
                       icon: Icon(Icons.email_outlined,
                           color: primaryColor, size: 28),
                       onTap: () => _launchUrl('mailto:${viewModel.getEmail()}'),
@@ -169,7 +169,7 @@ class _ContactSectionState extends State<ContactSection> {
                     _buildContactCard(
                       title: 'LinkedIn',
                       subtitle: 'Connect with me professionally',
-                      details: viewModel.getLinkedinUrl(),
+                      details: viewModel.getLinkedinDisplay(),
                       icon: FaIcon(FontAwesomeIcons.linkedin,
                           color: primaryColor, size: 28),
                       onTap: () => _launchUrl(viewModel.getLinkedinUrl()),
@@ -179,7 +179,7 @@ class _ContactSectionState extends State<ContactSection> {
                     _buildContactCard(
                       title: 'GitHub',
                       subtitle: 'Check out my projects',
-                      details: viewModel.getGithubUrl(),
+                      details: viewModel.getGithubDisplay(),
                       icon: Icon(Icons.code_outlined,
                           color: primaryColor, size: 28),
                       onTap: () => _launchUrl(viewModel.getGithubUrl()),
