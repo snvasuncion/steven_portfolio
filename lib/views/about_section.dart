@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utility/delayed_fade_scale.dart';
+import '../utility/resume_helper.dart';
 import '../viewmodels/about_viewmodel.dart';
 
 class AboutSection extends StatefulWidget {
@@ -54,6 +55,23 @@ class _AboutSectionState extends State<AboutSection> {
             _buildWhatIDo(),
             const SizedBox(height: 48),
             _buildHighlights(),
+            const SizedBox(height: 32),
+            DelayedFadeScale(
+              delay: const Duration(milliseconds: 1100),
+              child: Center(
+                child: ElevatedButton.icon(
+                  onPressed: ResumeHelper.download,
+                  icon: const Icon(Icons.download_rounded),
+                  label: const Text('Download Resume'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 48),
             _buildFunFact(),
           ],
