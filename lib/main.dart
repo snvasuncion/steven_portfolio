@@ -6,7 +6,6 @@ import 'blocs/theme_cubit.dart';
 import 'views/home_page.dart';
 import 'data/data_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

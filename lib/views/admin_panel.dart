@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../config.dart';
 import '../utility/message_helper.dart';
 import '../viewmodels/contact_viewmodel.dart';
-
-// ⚠️  Change this to your desired admin password before deploying.
-const _kAdminPassword = 'snv@admin2026';
 
 // ---------------------------------------------------------------------------
 // Entry point — call this to trigger the auth → panel flow
@@ -35,7 +33,7 @@ class _AdminAuthDialogState extends State<_AdminAuthDialog> {
   bool _error = false;
 
   void _submit() {
-    if (_controller.text.trim() == _kAdminPassword) {
+    if (_controller.text.trim() == AppConfig.adminPassword) {
       Navigator.pop(context);
       showDialog<void>(
         context: context,

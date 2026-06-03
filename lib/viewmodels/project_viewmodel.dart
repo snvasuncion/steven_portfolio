@@ -21,7 +21,6 @@ class ProjectViewModel {
         'title': "Custom Weather Map App",
         'description':
             "Simple weather forecasting application featuring user authentication, location-based weather search, and search history functionality. Built using MVVM architecture with comprehensive error handling for a seamless user experience. \n\nThis application was developed for a job assessment.",
-        'imageUrl': "assets/images/task_manager.png",
         'githubUrl': "https://github.com/snvasuncion/WeatherApp",
         'technologies': '["React Native", "JavaScript", "REST API"]',
       }
@@ -47,8 +46,6 @@ class ProjectViewModel {
         title: projectData['title']?.toString() ?? 'Untitled Project',
         description: projectData['description']?.toString() ??
             'No description available',
-        imageUrl: projectData['imageUrl']?.toString() ??
-            'assets/images/placeholder.png',
         githubUrl: projectData['githubUrl']?.toString() ?? '',
         technologies: technologies,
         liveUrl: projectData['liveUrl']?.toString(),

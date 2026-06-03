@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utility/delayed_fade_scale.dart';
 import '../viewmodels/about_viewmodel.dart';
-import '../widgets/hover_interactive_container.dart';
 
 class AboutSection extends StatefulWidget {
   const AboutSection({super.key});
@@ -138,14 +137,14 @@ class _AboutSectionState extends State<AboutSection> {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isDark 
-                ? Colors.white.withOpacity(0.08)
-                : Theme.of(context).primaryColor.withOpacity(0.12),
+                ? Colors.white.withValues(alpha: 0.08)
+                : Theme.of(context).primaryColor.withValues(alpha: 0.12),
           ),
           boxShadow: [
             BoxShadow(
               color: isDark 
-                  ? Colors.black.withOpacity(0.4) 
-                  : Theme.of(context).primaryColor.withOpacity(0.08),
+                  ? Colors.black.withValues(alpha: 0.4) 
+                  : Theme.of(context).primaryColor.withValues(alpha: 0.08),
               blurRadius: 15,
               spreadRadius: 2,
               offset: const Offset(0, 6),
@@ -229,10 +228,10 @@ class _AboutSectionState extends State<AboutSection> {
                 .map((h) => Chip(
                       label: Text(h, style: GoogleFonts.openSans(fontSize: 12)),
                       backgroundColor:
-                          Theme.of(context).primaryColor.withOpacity(0.05),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.05),
                       side: BorderSide(
                           color:
-                              Theme.of(context).primaryColor.withOpacity(0.1)),
+                              Theme.of(context).primaryColor.withValues(alpha: 0.1)),
                     ))
                 .toList(),
           ),
@@ -247,10 +246,10 @@ class _AboutSectionState extends State<AboutSection> {
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.03),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-              color: Theme.of(context).primaryColor.withOpacity(0.05)),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.05)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,26 +1,56 @@
 import 'dart:async';
 
+/// Singleton data provider — the single source of truth for all portfolio data.
+///
+/// Both [ProfileViewModel] and [AboutViewModel] read from this class
+/// instead of maintaining their own hardcoded copies.
 class DataProvider {
   static final DataProvider _instance = DataProvider._internal();
   factory DataProvider() => _instance;
   DataProvider._internal();
 
   Map<String, dynamic>? _cachedData;
-  bool _isFetching = false;
-  final List<void Function(Map<String, dynamic>)> _listeners = [];
-
-  List<Map<String, dynamic>> _projectsCache = [];
   List<dynamic>? _cachedProjects;
 
   Map<String, dynamic>? get cachedData => _cachedData;
   List<dynamic>? get cachedProjects => _cachedProjects;
 
-  List<Map<String, dynamic>> get projectsData => _projectsCache;
+  // ---------------------------------------------------------------------------
+  // Profile / About data
+  // ---------------------------------------------------------------------------
 
   Future<Map<String, dynamic>> getProfileData() async {
-    _cachedData = _getDefaultData();
+    _cachedData = _defaultData();
     return _cachedData!;
   }
+
+  /// Convenience accessors used by view models.
+  String get name => _cachedData?['name'] as String? ?? '';
+  String get title => _cachedData?['title'] as String? ?? '';
+  String get email => _cachedData?['email'] as String? ?? '';
+  String get location => _cachedData?['location'] as String? ?? '';
+  String get profileImage => _cachedData?['profileImage'] as String? ?? '';
+  String get githubUrl => _cachedData?['githubUrl'] as String? ?? '';
+  String get linkedinUrl => _cachedData?['linkedinUrl'] as String? ?? '';
+  String get intro => _cachedData?['intro'] as String? ?? '';
+  String get funFact => _cachedData?['funFact'] as String? ?? '';
+  List<String> get whatIDo =>
+      List<String>.from(_cachedData?['whatIDo'] ?? []);
+  List<String> get highlights =>
+      List<String>.from(_cachedData?['highlights'] ?? []);
+  List<String> get technicalSkills =>
+      List<String>.from(_cachedData?['technicalSkills'] ?? []);
+  List<String> get frameworks =>
+      List<String>.from(_cachedData?['frameworks'] ?? []);
+  List<String> get tools => List<String>.from(_cachedData?['tools'] ?? []);
+  List<Map<String, String>> get education =>
+      List<Map<String, String>>.from(_cachedData?['education'] ?? []);
+  List<Map<String, dynamic>> get experience =>
+      List<Map<String, dynamic>>.from(_cachedData?['experience'] ?? []);
+
+  // ---------------------------------------------------------------------------
+  // Projects
+  // ---------------------------------------------------------------------------
 
   Future<List<dynamic>> getProjectsData() async {
     _cachedProjects = [
@@ -29,7 +59,6 @@ class DataProvider {
         'title': "Custom Weather Map App",
         'description':
             "Simple weather forecasting application featuring user authentication, location-based weather search, and search history functionality. Built using MVVM architecture with comprehensive error handling for a seamless user experience. \n\nThis application was developed for a job assessment.",
-        'imageUrl': "assets/images/task_manager.png",
         'githubUrl': "https://github.com/snvasuncion/WeatherApp",
         'technologies': ["React Native", "JavaScript", "REST API"],
       }
@@ -37,7 +66,11 @@ class DataProvider {
     return _cachedProjects!;
   }
 
-  Map<String, dynamic> _getDefaultData() {
+  // ---------------------------------------------------------------------------
+  // Data
+  // ---------------------------------------------------------------------------
+
+  Map<String, dynamic> _defaultData() {
     return {
       'name': 'Steven Nikko V. Asuncion',
       'title': 'Software Developer',
@@ -139,22 +172,6 @@ class DataProvider {
         }
       ]
     };
-  }
-
-  void addListener(void Function(Map<String, dynamic>) listener) {
-    _listeners.add(listener);
-  }
-
-  void removeListener(void Function(Map<String, dynamic>) listener) {
-    _listeners.remove(listener);
-  }
-
-  void _notifyListeners() {
-    if (_cachedData != null) {
-      for (final listener in _listeners) {
-        listener(_cachedData!);
-      }
-    }
   }
 
   void preloadData() {

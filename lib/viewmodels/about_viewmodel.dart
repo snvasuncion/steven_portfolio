@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../data/data_provider.dart';
 
 class Skill {
   final String name;
@@ -8,7 +9,10 @@ class Skill {
   Skill({required this.name, required this.icon, required this.level});
 }
 
+/// Reads about/profile data from [DataProvider] (single source of truth).
 class AboutViewModel {
+  final DataProvider _data = DataProvider();
+
   final List<Skill> skills = [
     Skill(name: 'Flutter', icon: Icons.flutter_dash, level: 'Expert'),
     Skill(name: 'Dart', icon: Icons.code, level: 'Expert'),
@@ -22,40 +26,38 @@ class AboutViewModel {
     Skill(name: 'CI/CD', icon: Icons.build, level: 'Intermediate'),
   ];
 
-  String? intro =
-      "Software Developer with 8 years of professional experience building and shipping mobile and web applications across enterprise and startup environments. Specializes in Flutter, Dart, and modern frontend frameworks, delivering production-ready solutions consistently on schedule. Experienced in cross-functional Agile teams at both enterprise and startup scale — translating complex business requirements into clean, maintainable code.";
-  List<String>? whatIDo = [
-    "Mobile Development (Flutter, React Native)",
-    "Web Development (React, Next.js, TypeScript)",
-    "State Management (Bloc, MVVM, Provider)",
-    "Version Control (Git, GitHub)",
-    "API Integration (RESTful APIs)",
-    "CI/CD (GitHub Actions)",
-    "UI/UX with clean, responsive design",
-    "Agile Methodologies (Scrum, Jira)",
-  ];
-  List<String>? highlights = [
-    "5+ Years Delivering Production Mobile Applications",
-    "3+ Years Flutter & Dart — Shipped to Real Users",
-    "Cross-Platform Expert: Flutter & React Native",
-    "Full-Stack Capable: Mobile, Web & Backend Integration",
-    "Clean Architecture & Code Quality Practitioner",
-    "Agile Contributor Across Enterprise & Startup Environments",
-    "Consistent On-Time Delivery Across All Roles",
-    "User-First Mindset Reflected Across Every Shipped Product",
-  ];
-  String? funFact =
-      "I'm an avid mobile gamer and figure collector - two hobbies that keep my appreciation for design and detail sharp.";
-
   bool isLoading = false;
   String? error;
 
-  Future<void> fetchAboutData() async {}
+  // ---------------------------------------------------------------------------
+  // Text content — reads from DataProvider
+  // ---------------------------------------------------------------------------
 
-  String get safeIntro => intro ?? "Loading...";
-  List<String> get safeWhatIDo => whatIDo ?? [];
-  List<String> get safeHighlights => highlights ?? [];
-  String get safeFunFact => funFact ?? "Loading...";
+  /// The "About Me" intro paragraph (used by [safeIntro]).
+  String get intro => _data.intro;
+
+  /// Items in the "What I Specialized In" list.
+  List<String> get whatIDo => _data.whatIDo;
+
+  /// Highlight chips displayed in the "Professional Highlights" section.
+  List<String> get highlights => _data.highlights;
+
+  /// Fun fact displayed at the bottom of the About section.
+  String get funFact => _data.funFact;
+
+  // ---------------------------------------------------------------------------
+  // Backwards-compatible safe accessors
+  // ---------------------------------------------------------------------------
+
+  String get safeIntro => intro.isNotEmpty ? intro : "Loading...";
+  List<String> get safeWhatIDo => whatIDo;
+  List<String> get safeHighlights => highlights;
+  String get safeFunFact => funFact.isNotEmpty ? funFact : "Loading...";
+
+  /// Kept for API compatibility — data now loads synchronously from DataProvider.
+  Future<void> fetchAboutData() async {
+    await _data.getProfileData();
+  }
 
   Map<String, dynamic> toJson() {
     return {

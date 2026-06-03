@@ -3,13 +3,13 @@ import 'package:shimmer/shimmer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:steven_asuncion_portfolio/blocs/navigation_bloc.dart';
-import 'package:steven_asuncion_portfolio/views/about_section.dart';
-import 'package:steven_asuncion_portfolio/views/admin_panel.dart';
-import 'package:steven_asuncion_portfolio/views/contact_section.dart';
-import 'package:steven_asuncion_portfolio/views/project_section.dart';
-import 'profile_section.dart';
+import '../blocs/navigation_bloc.dart';
 import '../blocs/theme_cubit.dart';
+import 'about_section.dart';
+import 'admin_panel.dart';
+import 'contact_section.dart';
+import 'profile_section.dart';
+import 'project_section.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,17 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const _drawerLogoAsset = 'assets/images/SNVWorks_Logo_wText_512.svg';
-  bool _imageCached = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // SVGs load differently, precaching the asset string isn't as strictly necessary,
-    // but the flutter_svg library handles it efficiently when built.
-    _imageCached = true;
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
