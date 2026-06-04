@@ -27,6 +27,6 @@ jobs:
         run: flutter analyze
 
       - name: Build web
-        run: flutter build web --release --dart-define=ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
+        run: flutter build web --release --wasm --dart-define=ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
         env:
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
