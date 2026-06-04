@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../utility/delayed_fade_scale.dart';
 import '../utility/resume_helper.dart';
+import '../widgets/visibility_fade_scale.dart';
 import '../viewmodels/about_viewmodel.dart';
 
 class AboutSection extends StatefulWidget {
@@ -55,8 +55,10 @@ class _AboutSectionState extends State<AboutSection> {
             _buildWhatIDo(),
             const SizedBox(height: 48),
             _buildHighlights(),
+            const SizedBox(height: 48),
+            _buildFunFact(),
             const SizedBox(height: 32),
-            DelayedFadeScale(
+            VisibilityFadeScale(
               delay: const Duration(milliseconds: 1100),
               child: Center(
                 child: ElevatedButton.icon(
@@ -72,8 +74,6 @@ class _AboutSectionState extends State<AboutSection> {
                 ),
               ),
             ),
-            const SizedBox(height: 48),
-            _buildFunFact(),
           ],
         ),
       ),
@@ -81,7 +81,7 @@ class _AboutSectionState extends State<AboutSection> {
   }
 
   Widget _buildAboutHeader() {
-    return DelayedFadeScale(
+    return VisibilityFadeScale(
       delay: const Duration(milliseconds: 200),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +109,7 @@ class _AboutSectionState extends State<AboutSection> {
   }
 
   Widget _buildSkillsGrid() {
-    return DelayedFadeScale(
+    return VisibilityFadeScale(
       delay: const Duration(milliseconds: 600),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +189,7 @@ class _AboutSectionState extends State<AboutSection> {
   }
 
   Widget _buildWhatIDo() {
-    return DelayedFadeScale(
+    return VisibilityFadeScale(
       delay: const Duration(milliseconds: 800),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +225,7 @@ class _AboutSectionState extends State<AboutSection> {
   }
 
   Widget _buildHighlights() {
-    return DelayedFadeScale(
+    return VisibilityFadeScale(
       delay: const Duration(milliseconds: 1000),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +259,7 @@ class _AboutSectionState extends State<AboutSection> {
   }
 
   Widget _buildFunFact() {
-    return DelayedFadeScale(
+    return VisibilityFadeScale(
       delay: const Duration(milliseconds: 1200),
       child: Container(
         padding: const EdgeInsets.all(24),

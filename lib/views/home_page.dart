@@ -102,10 +102,29 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.all(24.0),
                               child: Column(
                                 children: [
-                                  Container(
-                                    key: ValueKey(state.selectedSection),
-                                    child: _buildContentSection(
-                                        state.selectedSection),
+                                  AnimatedSwitcher(
+                                    duration:
+                                        const Duration(milliseconds: 400),
+                                    switchInCurve: Curves.easeOutCubic,
+                                    switchOutCurve: Curves.easeInCubic,
+                                    transitionBuilder: (Widget child,
+                                        Animation<double> animation) {
+                                      return SlideTransition(
+                                        position: Tween<Offset>(
+                                          begin: const Offset(0.0, 0.05),
+                                          end: Offset.zero,
+                                        ).animate(animation),
+                                        child: FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      key: ValueKey(state.selectedSection),
+                                      child: _buildContentSection(
+                                          state.selectedSection),
+                                    ),
                                   ),
                                 ],
                               ),

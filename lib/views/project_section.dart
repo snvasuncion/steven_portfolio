@@ -3,8 +3,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../viewmodels/project_viewmodel.dart';
 import '../models/project.dart';
-import '../utility/delayed_fade_scale.dart';
 import '../widgets/hover_interactive_container.dart';
+import '../widgets/visibility_fade_scale.dart';
 
 class ProjectsSection extends StatefulWidget {
   const ProjectsSection({super.key});
@@ -48,7 +48,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            DelayedFadeScale(
+            VisibilityFadeScale(
               delay: const Duration(milliseconds: 200),
               child: Text(
                 'Projects',
@@ -103,7 +103,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                 ),
               )
             else if (_viewModel.projects.isEmpty)
-              DelayedFadeScale(
+              VisibilityFadeScale(
                 delay: const Duration(milliseconds: 300),
                 child: Container(
                   decoration: BoxDecoration(
@@ -122,7 +122,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
               ..._viewModel.projects.asMap().entries.map((entry) {
                 int index = entry.key;
                 Project project = entry.value;
-                return DelayedFadeScale(
+                return VisibilityFadeScale(
                   delay: Duration(milliseconds: 300 + (index * 150)),
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 24),
@@ -132,7 +132,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            DelayedFadeScale(
+                            VisibilityFadeScale(
                               delay: const Duration(milliseconds: 0),
                               child: Text(
                                 project.title,
@@ -144,7 +144,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            DelayedFadeScale(
+                            VisibilityFadeScale(
                               delay: const Duration(milliseconds: 50),
                               child: Text(
                                 project.description,
@@ -159,7 +159,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            DelayedFadeScale(
+                            VisibilityFadeScale(
                               delay: const Duration(milliseconds: 100),
                               child: Wrap(
                                 spacing: 8,
@@ -194,7 +194,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               ),
                             ),
                             const SizedBox(height: 24),
-                            DelayedFadeScale(
+                            VisibilityFadeScale(
                               delay: const Duration(milliseconds: 150),
                               child: Wrap(
                                 spacing: 12,

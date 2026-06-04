@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utility/app_toast.dart';
-import '../utility/delayed_fade_scale.dart';
+import '../widgets/visibility_fade_scale.dart';
 import '../utility/message_helper.dart';
 import '../viewmodels/contact_viewmodel.dart';
 import '../widgets/hover_interactive_container.dart';
@@ -139,7 +139,7 @@ class _ContactSectionState extends State<ContactSection> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            DelayedFadeScale(
+            VisibilityFadeScale(
               delay: const Duration(milliseconds: 200),
               child: Text(
                 'Contact',
@@ -150,7 +150,7 @@ class _ContactSectionState extends State<ContactSection> {
               ),
             ),
             const SizedBox(height: 20),
-            DelayedFadeScale(
+            VisibilityFadeScale(
               delay: const Duration(milliseconds: 300),
               child: Padding(
                 padding: EdgeInsets.all(isMobile ? 8.0 : 24.0),
@@ -190,7 +190,7 @@ class _ContactSectionState extends State<ContactSection> {
               ),
             ),
             const SizedBox(height: 32),
-            DelayedFadeScale(
+            VisibilityFadeScale(
               delay: const Duration(milliseconds: 400),
               child: Padding(
                 padding: EdgeInsets.all(isMobile ? 8.0 : 24.0),
@@ -215,7 +215,7 @@ class _ContactSectionState extends State<ContactSection> {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 24),
-                        DelayedFadeScale(
+                        VisibilityFadeScale(
                           delay: const Duration(milliseconds: 500),
                           child: _buildTextField(
                             controller: _nameController,
@@ -230,7 +230,7 @@ class _ContactSectionState extends State<ContactSection> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        DelayedFadeScale(
+                        VisibilityFadeScale(
                           delay: const Duration(milliseconds: 600),
                           child: _buildTextField(
                             controller: _messageController,
@@ -245,7 +245,7 @@ class _ContactSectionState extends State<ContactSection> {
                           ),
                         ),
                         const SizedBox(height: 32),
-                        DelayedFadeScale(
+                        VisibilityFadeScale(
                           delay: const Duration(milliseconds: 700),
                           child: ElevatedButton(
                             onPressed: () async {
@@ -296,7 +296,7 @@ class _ContactSectionState extends State<ContactSection> {
             ),
             const SizedBox(height: 32),
             if (_storedMessages.isNotEmpty)
-              DelayedFadeScale(
+              VisibilityFadeScale(
                 delay: const Duration(milliseconds: 900),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -485,7 +485,7 @@ class _ContactSectionState extends State<ContactSection> {
     required VoidCallback onTap,
     required int index,
   }) {
-    return DelayedFadeScale(
+    return VisibilityFadeScale(
       delay: Duration(milliseconds: 500 + (index * 150)),
       child: HoverInteractiveContainer(
         onTap: onTap,
