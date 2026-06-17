@@ -62,7 +62,7 @@ class _AboutSectionState extends State<AboutSection> {
               delay: const Duration(milliseconds: 1100),
               child: Center(
                 child: ElevatedButton.icon(
-                  onPressed: ResumeHelper.download,
+                  onPressed: () => ResumeHelper.download(),
                   icon: const Icon(Icons.download_rounded),
                   label: const Text('Download Resume'),
                   style: ElevatedButton.styleFrom(
