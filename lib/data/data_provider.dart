@@ -61,6 +61,26 @@ class DataProvider {
             "Simple weather forecasting application featuring user authentication, location-based weather search, and search history functionality. Built using MVVM architecture with comprehensive error handling for a seamless user experience. \n\nThis application was developed for a job assessment.",
         'githubUrl': "https://github.com/snvasuncion/WeatherApp",
         'technologies': ["React Native", "JavaScript", "REST API"],
+      },
+      {
+        'id': '2',
+        'title': "SNVWorks Portfolio",
+        'description':
+            "A responsive, cross-platform portfolio website built with Flutter for web. Features include:\n"
+            "- Animated splash screen with staggered fade-scale transitions\n"
+            "- Dark/Light theme toggle with custom color schemes\n"
+            "- Scroll-triggered entrance animations for a dynamic browsing experience\n"
+            "- Smooth slide+fade page transitions between sections\n"
+            "- Password-protected admin panel for message moderation\n"
+            "- Contact form with approval queue system\n"
+            "- Custom animated toast notifications\n"
+            "- Downloadable ATS-optimized resume (PDF)\n"
+            "- PWA support with installable manifest and service worker\n"
+            "- SEO optimization with Open Graph meta tags\n"
+            "- Responsive design (mobile drawer + desktop navbar)\n"
+            "- Built with assistance from GenAI tools (OpenCode/Claude) for rapid development, debugging, and architectural guidance.",
+        'githubUrl': '',
+        'technologies': ["Flutter", "Dart", "flutter_bloc", "Google Fonts", "flutter_svg", "Shimmer", "HTTP", "WASM", "CSS3"],
       }
     ];
     return _cachedProjects!;
