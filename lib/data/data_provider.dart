@@ -43,6 +43,12 @@ class DataProvider {
   List<String> get frameworks =>
       List<String>.from(_cachedData?['frameworks'] ?? []);
   List<String> get tools => List<String>.from(_cachedData?['tools'] ?? []);
+  Map<String, List<String>> get categorizedSkills =>
+      Map<String, List<String>>.from(
+          (_cachedData?['categorizedSkills'] as Map?)?.map(
+                (key, value) => MapEntry(key, List<String>.from(value)),
+              ) ??
+              {});
   List<Map<String, String>> get education =>
       List<Map<String, String>>.from(_cachedData?['education'] ?? []);
   List<Map<String, dynamic>> get experience =>
@@ -101,7 +107,7 @@ class DataProvider {
       'linkedinUrl':
           'https://www.linkedin.com/in/steven-nikko-villanueva-asuncion/',
       'intro':
-          "I'm a Software Developer with 8 years of experience in the industry. Proven expertise in delivering successful projects with strong skills in Git version control and Agile methodologies. Notable achievements include the successful implementation of new features and resolution of critical bugs across multiple projects. Committed to translating business needs into functional solutions, leveraging strong technical skills to enhance user experience and drive project success.",
+          "Dynamic Software Developer with over 5 years of experience in mobile and web application development. Proven track record of delivering successful projects, utilizing Agile methodologies to translate business needs into functional, high-quality solutions that enhance user experience. Highly adaptable and GenAI-fluent \u2014 leveraging tools like Claude, DeepSeek, OpenCode, and Gemini to accelerate development workflows, rapidly prototype new features, and maintain strict code quality.",
       'funFact':
           "I'm an avid mobile gamer and figure collector - two hobbies that keep my appreciation for design and detail sharp.",
       'whatIDo': [
@@ -125,28 +131,74 @@ class DataProvider {
         "Dedicated to Building High-Quality, User-Focused Applications"
       ],
       'technicalSkills': [
-        "Flutter/Dart",
         "Java",
+        "Dart",
         "React Native",
-        "PHP",
         "Kotlin",
-        "Google Maps API",
-        "Firebase Integration",
+        "React",
+        "Next.js",
+        "Android",
+        "Flutter",
+        "Firebase",
+        "SQLite",
         "REST API Integration"
       ],
       'frameworks': ["Flutter", "React", "React Native", "Next.js"],
       'tools': [
-        "VsCode",
         "Git",
+        "SourceTree",
         "Android Studio",
-        "Jira",
-        "Postman",
-        "Figma",
-        "Slack",
-        "Trello",
-        "GitHub Actions",
-        "Agile/Scrum"
+        "VSCode",
+        "WebStorm",
+        "Antigravity",
+        "Xcode",
+        "DeepSeek",
+        "Claude",
+        "ChatGPT",
+        "Gemini",
+        "OpenCode",
+        "Odysseus"
       ],
+      'categorizedSkills': {
+        'Programming Languages': [
+          "Java",
+          "Dart",
+          "React Native",
+          "Kotlin",
+          "React",
+          "Next.js"
+        ],
+        'Platforms & Cloud': [
+          "Android",
+          "Flutter",
+          "Web",
+          "Firebase",
+          "SQLite"
+        ],
+        'AI & Engineering Tools': [
+          "DeepSeek",
+          "Claude",
+          "ChatGPT",
+          "Gemini",
+          "OpenCode",
+          "Odysseus"
+        ],
+        'Database': [
+          "Firebase",
+          "SQLite"
+        ],
+        'IDE': [
+          "Android Studio",
+          "VSCode",
+          "WebStorm",
+          "Antigravity",
+          "Xcode"
+        ],
+        'Version Control': [
+          "Git",
+          "SourceTree"
+        ]
+      },
       'education': [
         {
           "degree": "Bachelor of Computer Science",

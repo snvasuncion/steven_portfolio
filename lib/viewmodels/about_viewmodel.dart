@@ -16,6 +16,9 @@ class AboutViewModel {
   final List<Skill> skills = [
     Skill(name: 'Flutter', icon: Icons.flutter_dash, level: 'Expert'),
     Skill(name: 'Dart', icon: Icons.code, level: 'Expert'),
+    Skill(name: 'Java', icon: Icons.language, level: 'Advanced'),
+    Skill(name: 'Kotlin', icon: Icons.developer_mode, level: 'Advanced'),
+    Skill(name: 'React Native', icon: Icons.phone_android, level: 'Advanced'),
     Skill(name: 'Firebase', icon: Icons.cloud_queue, level: 'Advanced'),
     Skill(name: 'Git', icon: Icons.terminal, level: 'Advanced'),
     Skill(name: 'Bloc/Provider', icon: Icons.layers, level: 'Advanced'),
@@ -24,6 +27,10 @@ class AboutViewModel {
     Skill(name: 'Next.js', icon: Icons.desktop_windows, level: 'Intermediate'),
     Skill(name: 'TypeScript', icon: Icons.javascript, level: 'Intermediate'),
     Skill(name: 'CI/CD', icon: Icons.build, level: 'Intermediate'),
+    Skill(name: 'DeepSeek', icon: Icons.auto_awesome, level: 'Advanced'),
+    Skill(name: 'Claude', icon: Icons.psychology, level: 'Advanced'),
+    Skill(name: 'OpenCode', icon: Icons.smart_toy, level: 'Advanced'),
+    Skill(name: 'Android', icon: Icons.android, level: 'Advanced'),
   ];
 
   bool isLoading = false;

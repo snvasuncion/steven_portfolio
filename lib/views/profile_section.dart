@@ -183,7 +183,61 @@ class _ProfileSectionState extends State<ProfileSection> {
                 ),
               ),
               const SizedBox(height: 12),
-              if (viewModel.getAllSkills().isNotEmpty) ...{
+              if (viewModel.categorizedSkills.isNotEmpty) ...{
+                ...viewModel.categorizedSkills.entries.map((entry) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          entry.key,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withValues(alpha: 0.7),
+                                letterSpacing: 0.5,
+                              ),
+                        ),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 6,
+                          children: entry.value.map((skill) {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withValues(alpha: 0.2),
+                                ),
+                              ),
+                              child: Text(
+                                skill,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              } else if (viewModel.getAllSkills().isNotEmpty) ...{
                 DelayedFadeScale(
                   delay: const Duration(milliseconds: 650),
                   child: Wrap(

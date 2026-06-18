@@ -55,6 +55,9 @@ class ProfileViewModel {
     };
   }
 
+  Map<String, List<String>> get categorizedSkills =>
+      _data.categorizedSkills;
+
   // ---------------------------------------------------------------------------
   // Helpers
   // ---------------------------------------------------------------------------
