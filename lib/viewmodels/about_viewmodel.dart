@@ -4,9 +4,8 @@ import '../data/data_provider.dart';
 class Skill {
   final String name;
   final IconData icon;
-  final String level;
 
-  Skill({required this.name, required this.icon, required this.level});
+  Skill({required this.name, required this.icon});
 }
 
 /// Reads about/profile data from [DataProvider] (single source of truth).
@@ -14,23 +13,23 @@ class AboutViewModel {
   final DataProvider _data = DataProvider();
 
   final List<Skill> skills = [
-    Skill(name: 'Flutter', icon: Icons.flutter_dash, level: 'Expert'),
-    Skill(name: 'Dart', icon: Icons.code, level: 'Expert'),
-    Skill(name: 'Java', icon: Icons.language, level: 'Advanced'),
-    Skill(name: 'Kotlin', icon: Icons.developer_mode, level: 'Advanced'),
-    Skill(name: 'React Native', icon: Icons.phone_android, level: 'Advanced'),
-    Skill(name: 'Firebase', icon: Icons.cloud_queue, level: 'Advanced'),
-    Skill(name: 'Git', icon: Icons.terminal, level: 'Advanced'),
-    Skill(name: 'Bloc/Provider', icon: Icons.layers, level: 'Advanced'),
-    Skill(name: 'REST APIs', icon: Icons.api, level: 'Intermediate'),
-    Skill(name: 'React', icon: Icons.web, level: 'Intermediate'),
-    Skill(name: 'Next.js', icon: Icons.desktop_windows, level: 'Intermediate'),
-    Skill(name: 'TypeScript', icon: Icons.javascript, level: 'Intermediate'),
-    Skill(name: 'CI/CD', icon: Icons.build, level: 'Intermediate'),
-    Skill(name: 'DeepSeek', icon: Icons.auto_awesome, level: 'Advanced'),
-    Skill(name: 'Claude', icon: Icons.psychology, level: 'Advanced'),
-    Skill(name: 'OpenCode', icon: Icons.smart_toy, level: 'Advanced'),
-    Skill(name: 'Android', icon: Icons.android, level: 'Advanced'),
+    Skill(name: 'Flutter', icon: Icons.flutter_dash),
+    Skill(name: 'Dart', icon: Icons.code),
+    Skill(name: 'Java', icon: Icons.language),
+    Skill(name: 'Kotlin', icon: Icons.developer_mode),
+    Skill(name: 'React Native', icon: Icons.phone_android),
+    Skill(name: 'Firebase', icon: Icons.cloud_queue),
+    Skill(name: 'Git', icon: Icons.terminal),
+    Skill(name: 'Bloc/Provider', icon: Icons.layers),
+    Skill(name: 'REST APIs', icon: Icons.api),
+    Skill(name: 'React', icon: Icons.web),
+    Skill(name: 'Next.js', icon: Icons.desktop_windows),
+    Skill(name: 'TypeScript', icon: Icons.javascript),
+    Skill(name: 'CI/CD', icon: Icons.build),
+    Skill(name: 'DeepSeek', icon: Icons.auto_awesome),
+    Skill(name: 'Claude', icon: Icons.psychology),
+    Skill(name: 'OpenCode', icon: Icons.smart_toy),
+    Skill(name: 'Android', icon: Icons.android),
   ];
 
   bool isLoading = false;
