@@ -22,7 +22,7 @@ class AboutViewModel {
     Skill(name: 'Firebase', icon: Icons.cloud_queue, level: 'Advanced'),
     Skill(name: 'Git', icon: Icons.terminal, level: 'Advanced'),
     Skill(name: 'Bloc/Provider', icon: Icons.layers, level: 'Advanced'),
-    Skill(name: 'REST APIs', icon: Icons.api, level: 'Expert'),
+    Skill(name: 'REST APIs', icon: Icons.api, level: 'Intermediate'),
     Skill(name: 'React', icon: Icons.web, level: 'Intermediate'),
     Skill(name: 'Next.js', icon: Icons.desktop_windows, level: 'Intermediate'),
     Skill(name: 'TypeScript', icon: Icons.javascript, level: 'Intermediate'),
