@@ -143,8 +143,22 @@ class _AboutSectionState extends State<AboutSection> {
     );
   }
 
+  Color _levelColor(String level) {
+    switch (level.toLowerCase()) {
+      case 'expert':
+        return Colors.teal;
+      case 'advanced':
+        return Colors.blue;
+      case 'intermediate':
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
+  }
+
   Widget _buildSkillCard(Skill skill, [double width = 160]) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final levelColor = _levelColor(skill.level);
 
     return SizedBox(
       width: width,
@@ -180,6 +194,36 @@ class _AboutSectionState extends State<AboutSection> {
               style: GoogleFonts.poppins(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: levelColor.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 6,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: levelColor,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    skill.level,
+                    style: GoogleFonts.poppins(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: levelColor,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

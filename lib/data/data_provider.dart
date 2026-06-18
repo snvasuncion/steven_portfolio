@@ -171,9 +171,7 @@ class DataProvider {
         'Platforms & Cloud': [
           "Android",
           "Flutter",
-          "Web",
-          "Firebase",
-          "SQLite"
+          "Web"
         ],
         'AI & Engineering Tools': [
           "DeepSeek",

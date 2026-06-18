@@ -26,6 +26,74 @@ class _ProfileSectionState extends State<ProfileSection> {
     }
   }
 
+  List<Widget> _buildCategorizedSkills() {
+    final entries = viewModel.categorizedSkills.entries.toList();
+    final List<Widget> widgets = [];
+
+    for (int i = 0; i < entries.length; i++) {
+      if (i > 0) {
+        widgets.add(
+          const Padding(
+            padding: EdgeInsets.only(bottom: 12),
+            child: Divider(height: 1),
+          ),
+        );
+      }
+      widgets.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                entries[i].key,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context)
+                          .primaryColor
+                          .withValues(alpha: 0.7),
+                      letterSpacing: 0.5,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: entries[i].value.map((skill) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .primaryColor
+                          .withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(
+                        color: Theme.of(context)
+                            .primaryColor
+                            .withValues(alpha: 0.2),
+                      ),
+                    ),
+                    child: Text(
+                      skill,
+                      style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DelayedFadeScale(
@@ -49,27 +117,42 @@ class _ProfileSectionState extends State<ProfileSection> {
             children: [
               DelayedFadeScale(
                 delay: const Duration(milliseconds: 300),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.lerp(Colors.transparent,
-                        Theme.of(context).primaryColor, 0.2)!,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context)
-                            .primaryColor
-                            .withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      viewModel.getProfileImage(),
-                      width: 140,
-                      height: 140,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(context)
+                              .primaryColor
+                              .withValues(alpha: 0.25),
+                          blurRadius: 20,
+                          offset: const Offset(0, 4),
+                        ),
+                        BoxShadow(
+                          color: Theme.of(context)
+                              .primaryColor
+                              .withValues(alpha: 0.12),
+                          blurRadius: 40,
+                          spreadRadius: 6,
+                          offset: const Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                    child: ClipOval(
+                      child: Image.asset(
+                        viewModel.getProfileImage(),
+                        width: 140,
+                        height: 140,
                       fit: BoxFit.cover,
                       filterQuality: FilterQuality.high,
                     ),
@@ -188,59 +271,7 @@ class _ProfileSectionState extends State<ProfileSection> {
                   delay: const Duration(milliseconds: 650),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: viewModel.categorizedSkills.entries.map((entry) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              entry.key,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: Theme.of(context)
-                                        .primaryColor
-                                        .withValues(alpha: 0.7),
-                                    letterSpacing: 0.5,
-                                  ),
-                            ),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              spacing: 6,
-                              runSpacing: 6,
-                              children: entry.value.map((skill) {
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .primaryColor
-                                        .withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withValues(alpha: 0.2),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    skill,
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                    children: _buildCategorizedSkills(),
                   ),
                 ),
               } else if (viewModel.getAllSkills().isNotEmpty) ...{
