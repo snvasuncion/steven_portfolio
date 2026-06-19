@@ -62,14 +62,6 @@ class DataProvider {
     _cachedProjects = [
       {
         'id': '1',
-        'title': "Custom Weather Map App",
-        'description':
-            "Simple weather forecasting application featuring user authentication, location-based weather search, and search history functionality. Built using MVVM architecture with comprehensive error handling for a seamless user experience. \n\nThis application was developed for a job assessment.",
-        'githubUrl': "https://github.com/snvasuncion/WeatherApp",
-        'technologies': ["React Native", "JavaScript", "REST API"],
-      },
-      {
-        'id': '2',
         'title': "SNVWorks Portfolio",
         'description':
             "A responsive, cross-platform portfolio website built with Flutter for web. Features include:\n"
@@ -87,7 +79,15 @@ class DataProvider {
             "- Built with assistance from GenAI tools (OpenCode/Claude) for rapid development, debugging, and architectural guidance.",
         'githubUrl': '',
         'technologies': ["Flutter", "Dart", "flutter_bloc", "Google Fonts", "flutter_svg", "Shimmer", "HTTP", "WASM", "CSS3"],
-      }
+      },
+      {
+        'id': '2',
+        'title': "Custom Weather Map App",
+        'description':
+            "Simple weather forecasting application featuring user authentication, location-based weather search, and search history functionality. Built using MVVM architecture with comprehensive error handling for a seamless user experience. \n\nThis application was developed for a job assessment.",
+        'githubUrl': "https://github.com/snvasuncion/WeatherApp",
+        'technologies': ["React Native", "JavaScript", "REST API"],
+      },
     ];
     return _cachedProjects!;
   }
